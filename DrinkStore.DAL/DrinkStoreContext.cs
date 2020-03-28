@@ -24,19 +24,6 @@ namespace DrinkStore.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            /*modelBuilder.Entity<Category>()
-                        .HasMany(c => c.Products)
-                        .WithOne(p => p.Category)
-                        .IsRequired()
-                        .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Subcategory>()
-                        .HasMany(c => c.Products)
-                        .WithOne(p => p.SubCategory)
-                        .IsRequired()
-                        .OnDelete(DeleteBehavior.NoAction);
-            */
-
             modelBuilder.Entity<Product>()
                          .HasOne(p => p.Category)
                          .WithMany(c => c.Products)

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using DrinkStore.DAL;
 using Microsoft.EntityFrameworkCore;
+using BLL.Services;
 
 namespace DrinkStore.API
 {
@@ -29,7 +30,10 @@ namespace DrinkStore.API
         {
             services.AddDbContext<DrinkStoreContext>(o =>
                 o.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-                
+
+
+            services.AddTransient<IProductService, ProductService>();
+
             services.AddControllers();
         }
 
