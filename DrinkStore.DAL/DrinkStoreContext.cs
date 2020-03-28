@@ -15,10 +15,40 @@ namespace DrinkStore.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<PackSize> PackSizes { get; set; }
+        public DbSet<ProductOrder> ProductOrders { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            /*modelBuilder.Entity<Category>()
+                        .HasMany(c => c.Products)
+                        .WithOne(p => p.Category)
+                        .IsRequired()
+                        .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Subcategory>()
+                        .HasMany(c => c.Products)
+                        .WithOne(p => p.SubCategory)
+                        .IsRequired()
+                        .OnDelete(DeleteBehavior.NoAction);
+            */
+
+            modelBuilder.Entity<Product>()
+                         .HasOne(p => p.Category)
+                         .WithMany(c => c.Products)
+                         .IsRequired()
+                         .OnDelete(DeleteBehavior.NoAction);
+
+
+             modelBuilder.Entity<Product>()
+                         .HasOne(p => p.SubCategory)
+                         .WithMany(c => c.Products)
+                         .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

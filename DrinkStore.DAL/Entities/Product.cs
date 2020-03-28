@@ -17,7 +17,7 @@ namespace DrinkStore.DAL.Entities
         public Category Category { get; set; }
 
         public int SubCategoryId { get; set; }
-        public Category SubCategory { get; set; }
+        public Subcategory SubCategory { get; set; }
 
         public ICollection<ProductOrder> ProductOrders { get; } = new List<ProductOrder>();
     }
