@@ -4,14 +4,16 @@ using DrinkStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DrinkStore.DAL.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
-    partial class DrinkStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200329132132_AddQuantityColumnForProductOrderTable")]
+    partial class AddQuantityColumnForProductOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,6 +77,9 @@ namespace DrinkStore.DAL.Migrations
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

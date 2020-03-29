@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200328165544_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200329114544_DatabaseSeed.cs" />
     <Compile Remove="Migrations\20200329114544_DatabaseSeed.Designer.cs" />
+    <Compile Remove="Migrations\20200329132056_AddQuantityColumnForOrderTable.cs" />
+    <Compile Remove="Migrations\20200329132056_AddQuantityColumnForOrderTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
