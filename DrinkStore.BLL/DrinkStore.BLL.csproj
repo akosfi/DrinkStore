@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DrinkStore.DAL\DrinkStore.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
