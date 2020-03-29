@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using DrinkStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using BLL.Services;
+using DrinkStore.BLL.Services;
 
 namespace DrinkStore.API
 {
@@ -33,6 +34,7 @@ namespace DrinkStore.API
 
 
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
             services.AddControllers();
         }

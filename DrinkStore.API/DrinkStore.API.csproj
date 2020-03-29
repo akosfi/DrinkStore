@@ -10,9 +10,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DrinkStore.BLL\DrinkStore.BLL.csproj" />
     <ProjectReference Include="..\DrinkStore.DAL\DrinkStore.DAL.csproj" />
   </ItemGroup>
 

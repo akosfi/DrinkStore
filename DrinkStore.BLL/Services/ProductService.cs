@@ -1,4 +1,5 @@
-﻿using DrinkStore.DAL;
+﻿using DrinkStore.BLL.DTOs;
+using DrinkStore.DAL;
 using DrinkStore.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,7 +21,14 @@ namespace BLL.Services
 
         public async void DeleteProduct(int productId)
         {
-            Product product = await GetProduct(productId);
+            Product product = await _context
+                .Products
+                .Include(p => p.PackSize)
+                .Where(p => p.Id == productId)
+                .SingleOrDefaultAsync();
+
+            if (product == null) return;
+
             _context
                 .Products
                 .Remove(product);
@@ -29,44 +37,59 @@ namespace BLL.Services
                 .SaveChangesAsync();
         }
 
-        public async Task<Product> GetProduct(int productId)
+        public async Task<ProductDTO> GetProduct(int productId)
         {
             return await _context
                 .Products
-                .SingleOrDefaultAsync(p => p.Id == productId);
+                .Include(p => p.PackSize)
+                .Where(p => p.Id == productId)
+                .Select(ProductDTO.CreateFromProduct())
+                .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<ProductDTO>> GetProducts()
         {
             return await _context
                 .Products
+                .Select(ProductDTO.CreateFromProduct())
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
+        public async Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(int categoryId)
         {
             return await _context
                 .Products
                 .Where(p => p.CategoryId == categoryId)
+                .Select(ProductDTO.CreateFromProduct())
                 .ToListAsync();
         }
-        public async Task<IEnumerable<Product>> GetProductsBySubCategoryId(int subcategoryId)
+        public async Task<IEnumerable<ProductDTO>> GetProductsBySubCategoryId(int subcategoryId)
         {
             return await _context
                 .Products
                 .Where(p => p.SubCategoryId == subcategoryId)
+                .Select(ProductDTO.CreateFromProduct())
                 .ToListAsync();
         }
-        public async Task<Product> InsertProduct(Product newProduct)
+        public async Task<Product> InsertProduct(ProductCreateDTO newProduct)
         {
+            Product product = new Product
+            {
+                Name = newProduct.Name,
+                UnitPrice = newProduct.UnitPrice,
+                PackSizeId = newProduct.PackSizeId,
+                CategoryId = newProduct.CategoryId,
+                SubCategoryId = newProduct.SubCategoryId,
+            };
+
             _context
                 .Products
-                .Add(newProduct);
+                .Add(product);
 
             await _context
                 .SaveChangesAsync();
 
-            return newProduct;
+            return product;
         }
         public async Task UpdateProduct(int productId, Product updatedProduct)
         {
