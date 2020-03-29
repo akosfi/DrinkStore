@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkStore.DAL", "DrinkStor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkStore.API", "DrinkStore.API\DrinkStore.API.csproj", "{D9794E6B-3054-4898-8E1A-240F17AB7C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{A6CAE9CB-A1D4-4E3E-AF98-076A67728B1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkStore.BLL", "DrinkStore.BLL\DrinkStore.BLL.csproj", "{45EB71E6-3C4F-45D5-8F6B-AF2D43CEE341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{D9794E6B-3054-4898-8E1A-240F17AB7C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9794E6B-3054-4898-8E1A-240F17AB7C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9794E6B-3054-4898-8E1A-240F17AB7C70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6CAE9CB-A1D4-4E3E-AF98-076A67728B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6CAE9CB-A1D4-4E3E-AF98-076A67728B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6CAE9CB-A1D4-4E3E-AF98-076A67728B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6CAE9CB-A1D4-4E3E-AF98-076A67728B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45EB71E6-3C4F-45D5-8F6B-AF2D43CEE341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45EB71E6-3C4F-45D5-8F6B-AF2D43CEE341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45EB71E6-3C4F-45D5-8F6B-AF2D43CEE341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45EB71E6-3C4F-45D5-8F6B-AF2D43CEE341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

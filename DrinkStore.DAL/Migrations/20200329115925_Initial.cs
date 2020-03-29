@@ -78,7 +78,7 @@ namespace DrinkStore.DAL.Migrations
                     UnitPrice = table.Column<int>(nullable: false),
                     PackSizeId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
-                    SubCategoryId = table.Column<int>(nullable: false)
+                    SubCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

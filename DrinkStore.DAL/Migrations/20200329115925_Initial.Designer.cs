@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrinkStore.DAL.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
-    [Migration("20200328165634_Initial")]
+    [Migration("20200329115925_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,7 +88,7 @@ namespace DrinkStore.DAL.Migrations
                     b.Property<int>("PackSizeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitPrice")
@@ -164,8 +164,7 @@ namespace DrinkStore.DAL.Migrations
                     b.HasOne("DrinkStore.DAL.Entities.Subcategory", "SubCategory")
                         .WithMany("Products")
                         .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("DrinkStore.DAL.Entities.ProductOrder", b =>
