@@ -14,7 +14,7 @@ namespace BLL.Services
         Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(int categoryId);
         Task<IEnumerable<ProductDTO>> GetProductsBySubCategoryId(int subcategoryId);
         Task<Product> InsertProduct(ProductCreateDTO newProduct);
-        Task UpdateProduct(int productId, Product updatedProduct);
+        Task UpdateProduct(int productId, ProductCreateDTO updatedProduct);
         void DeleteProduct(int productId);
     }
 }

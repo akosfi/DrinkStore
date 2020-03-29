@@ -91,10 +91,19 @@ namespace BLL.Services
 
             return product;
         }
-        public async Task UpdateProduct(int productId, Product updatedProduct)
+        public async Task UpdateProduct(int productId, ProductCreateDTO updatedProduct)
         {
-            updatedProduct.Id = productId;
-            var entry = _context.Attach(updatedProduct);
+            Product product = new Product
+            {
+                Id = productId,
+                UnitPrice = updatedProduct.UnitPrice,
+                Name = updatedProduct.Name,
+                CategoryId = updatedProduct.CategoryId,
+                SubCategoryId = updatedProduct.SubCategoryId,
+                PackSizeId = updatedProduct.PackSizeId,
+            };
+
+            var entry = _context.Attach(product);
 
             entry.State = EntityState.Modified;
 
