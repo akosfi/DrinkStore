@@ -35,6 +35,7 @@ namespace DrinkStore.API
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IOrderService, OrderService>();
 
             services.AddControllers();
         }

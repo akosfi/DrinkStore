@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DrinkStore.BLL.Services
 {
-    class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
         private readonly DrinkStoreContext _context;
 

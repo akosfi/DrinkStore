@@ -31,7 +31,6 @@ namespace DrinkStore.BLL.Services
         {
             Category category = new Category
             {
-                Id = newCategory.Id,
                 Name = newCategory.Name,
             };
 
