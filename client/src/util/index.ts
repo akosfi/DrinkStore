@@ -1,7 +1,7 @@
-export function makeRequest(url, body, method: 'GET' | 'POST' = 'GET') {
+export function makeRequest(url, body, method = 'GET') {
     return fetch(`https://localhost:44330${url}`,{
-        method,
-        body: JSON.stringify(body),
+        method: (method == 'POST') ? 'POST' : 'GET',
+        //body: JSON.stringify(body),
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
