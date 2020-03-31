@@ -1,22 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      asd
+    <div class="container-fluid">
+      
+      <router-view/>
     </div>
-    <router-view/>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  mounted: function() {
-    this.$store
-        .dispatch('products/getProductsAction')
-        .then();
-  }
-});
+  import Vue from 'vue';
+  //import { mapGetters } from 'vuex'
+
+  export default Vue.extend({
+  });
 </script>
 
 <style lang="scss">
+  @import '~bootstrap/scss/bootstrap';
+
+  
+
 </style>

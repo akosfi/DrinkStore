@@ -1,19 +1,23 @@
-import {makeRequest} from '../../util/';
+import {makeRequest} from '../../util';
 
 const state = {
     products: [],
 };
 const getters = {
-    getproducts: function() {
+    getProducts: function() {
         return state.products;
     }
 };
 const actions = {
-    getproductsAction({commit}) {
+    getProductsAction({commit}, {categoryId, subcategoryId}) {
+        let url = '/products?';
+        url += categoryId ? 'categoryId=' + categoryId : '';
+        url += subcategoryId ? '&subcategoryId=' + subcategoryId : '';
+
         return new Promise((resolve, reject) => {
-            makeRequest('/products', {})
+            makeRequest(url, {})
             .then((products) => {
-                commit('saveproducts', products);
+                commit('addProducts', products);
                 resolve(products);
             })
             .catch((err) => {
@@ -25,7 +29,7 @@ const actions = {
 };
 
 const mutations = {
-    saveproducts(state, products) {
+    addProducts(state, products) {
         state.products = products;
     }
 };
