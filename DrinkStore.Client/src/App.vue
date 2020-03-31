@@ -1,18 +1,24 @@
 <template>
     <div>
-        { mine }
+        {{ mine }}
     </div>
 </template>
 
 
 <script lang="ts">
-    import Vue from 'vue'
+    import Vue from 'vue';
+    import { mapGetters } from 'vuex';
 
     const App = Vue.extend({
         data: function() {
             return {
-                mine: 'mine',
+                mine: 'aaaaaaaaa',
             };
+        },
+        mounted: function() {
+            this.$store
+                .dispatch('drinks/getDrinks')
+                .then();
         }
     });
 
