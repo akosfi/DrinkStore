@@ -23,9 +23,21 @@ namespace DrinkStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductDTO>> Get()
+        public async Task<IEnumerable<ProductDTO>> Get([FromQuery] int? categoryId, [FromQuery] int? subcategoryId)
         {
-            return await _productService.GetProducts();
+            if(subcategoryId != null)
+            {
+                return await _productService.GetProductsBySubCategoryId((int)subcategoryId);
+            }
+            else if(categoryId != null)
+            {
+                return await _productService.GetProductsByCategoryId((int)categoryId);
+            }
+            else
+            {
+                return await _productService.GetProducts();
+            }
+            
         }
 
         [HttpGet("{id}", Name = "Get")]
