@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@types/vue": "^2.0.0",
+    "@vue/cli-service": "^4.2.3",
+    "typescript": "^3.8.3",
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "scripts": {
+    "start": "vue-cli-service serve src/main.ts",
+    "build": "vue-cli-service build src/main.ts"
+  }
+}
