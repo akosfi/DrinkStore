@@ -24,7 +24,13 @@ namespace DrinkStore.Auth
             {
                 new ApiResource("resourceapi", "Resource API")
                 {
-                    Scopes = {new Scope("api.read")}
+                    Scopes = {
+                        new Scope("cat"),
+                        new Scope("cat:read"),
+                        new Scope("product"),
+                        new Scope("product:read"),
+                        new Scope("order"),
+                    }
                 }
             };
         }
@@ -38,7 +44,7 @@ namespace DrinkStore.Auth
                     ClientId = "vue_app",
                     ClientName = "Vue APP",
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowedScopes = { "openid", "profile", "email", "api.read" },
+                    AllowedScopes = { "openid", "profile", "email", "cat", "cat:read", "product", "product:read", "order"},
                     RedirectUris = {"http://localhost:4200/auth-callback"},
                     PostLogoutRedirectUris = {"http://localhost:4200/"},
                     AllowedCorsOrigins = {"http://localhost:4200"},

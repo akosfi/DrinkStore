@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using BLL.Services;
 using DrinkStore.BLL.DTOs;
 using DrinkStore.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DrinkStore.API.Controllers
 {
+    [Authorize(Policy = "ApiReader")]
     [ApiController]
     [Route("[controller]")]
     public class ProductsController : ControllerBase

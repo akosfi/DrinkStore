@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,7 @@ using DrinkStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using BLL.Services;
 using DrinkStore.BLL.Services;
+using System.Security.Claims;
 
 namespace DrinkStore.API
 {
@@ -27,7 +29,7 @@ namespace DrinkStore.API
         public IConfiguration Configuration { get; }
         readonly string AllowedClientOrigin = nameof(AllowedClientOrigin);
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -46,6 +48,23 @@ namespace DrinkStore.API
             services.AddDbContext<DrinkStoreContext>(o =>
                 o.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.Authority = "https://localhost:44301";
+                o.Audience = "resourceapi";
+                o.RequireHttpsMetadata = false;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiReader", policy => policy.RequireClaim("scope", "api.read"));
+                options.AddPolicy("Consumer", policy => policy.RequireClaim(ClaimTypes.Role, "consumer"));
+            });
+
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
@@ -54,7 +73,6 @@ namespace DrinkStore.API
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(AllowedClientOrigin);
@@ -68,6 +86,7 @@ namespace DrinkStore.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

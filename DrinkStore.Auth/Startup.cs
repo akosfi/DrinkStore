@@ -58,15 +58,6 @@ namespace DrinkStore.Auth
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<User>();
 
-            /* We'll play with this down the road... 
-                services.AddAuthentication()
-                .AddGoogle("Google", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    options.ClientId = "<insert here>";
-                    options.ClientSecret = "<insert here>";
-                });*/
-
             services.AddTransient<IProfileService, IdentityClaimsProfileService>();
 
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()

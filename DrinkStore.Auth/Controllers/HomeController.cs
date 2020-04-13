@@ -1,37 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DrinkStore.Auth.Models;
 
 namespace DrinkStore.Auth.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+		private readonly IHostingEnvironment _environment;
+		private readonly ILogger<HomeController> _logger;
+		private readonly IIdentityServerInteractionService _interaction;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		public HomeController(IHostingEnvironment environment, ILogger<HomeController> logger, IIdentityServerInteractionService interaction)
+		{
+			_environment = environment;
+			_logger = logger;
+			_interaction = interaction;
+		}
+		public async Task<IActionResult> Error(string errorId)
+		{
+			var message = await _interaction.GetErrorContextAsync(errorId);
+			
+			return Ok(message);
+		}
+	}
 }
