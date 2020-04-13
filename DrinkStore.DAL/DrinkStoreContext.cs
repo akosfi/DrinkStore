@@ -1,12 +1,15 @@
 ﻿using DrinkStore.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DrinkStore.DAL
 {
-    public class DrinkStoreContext : DbContext
+    public class DrinkStoreContext : IdentityDbContext<User>
     {
         public DrinkStoreContext(DbContextOptions<DrinkStoreContext> options)
             : base(options) { }
@@ -66,6 +69,9 @@ namespace DrinkStore.DAL
                 new Product { Id = 1, Name = "Szekszárdi Vörös Cuvée", UnitPrice = 902, CategoryId = 2, SubCategoryId = 4, PackSizeId = 1 },
                 new Product { Id = 2, Name = "Birtok Fehér", UnitPrice = 736, CategoryId = 2, SubCategoryId = 4, PackSizeId = 2 }
             );
+
+
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Consumer", NormalizedName = "Consumer".ToUpper() });
 
         }
     }
