@@ -61,7 +61,7 @@ namespace DrinkStore.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiReader", policy => policy.RequireClaim("scope", "api.read"));
+                options.AddPolicy("product:read", policy => policy.RequireClaim("scope", "product:read"));
                 options.AddPolicy("Consumer", policy => policy.RequireClaim(ClaimTypes.Role, "consumer"));
             });
 

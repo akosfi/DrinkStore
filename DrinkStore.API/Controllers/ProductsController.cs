@@ -11,9 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DrinkStore.API.Controllers
 {
-    [Authorize(Policy = "ApiReader")]
+    [Authorize(Policy = "product:read")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
 
