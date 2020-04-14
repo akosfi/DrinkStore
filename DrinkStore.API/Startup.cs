@@ -65,8 +65,11 @@ namespace DrinkStore.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("product:read", policy => policy.RequireClaim("scope", "product:read"));
-                options.AddPolicy("Consumer", policy => policy.RequireClaim(ClaimTypes.Role, "consumer"));
+                options.AddPolicy("cat", policy             => policy.RequireClaim("scope", "cat"));
+                options.AddPolicy("product", policy         => policy.RequireClaim("scope", "product"));
+                options.AddPolicy("order", policy           => policy.RequireClaim("scope", "order"));
+                options.AddPolicy("order:create", policy    => policy.RequireClaim("scope", "order:create"));
+                options.AddPolicy("order:read", policy      => policy.RequireClaim("scope", "order:read"));
             });
 
             services.AddTransient<IProductService, ProductService>();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DrinkStore.BLL.DTOs;
 using DrinkStore.BLL.Services;
 using DrinkStore.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RiskFirst.Hateoas;
@@ -25,6 +26,7 @@ namespace DrinkStore.API.Controllers
         }
 
 
+        [Authorize(Policy = "order:read")]
         [HttpGet(Name = nameof(GetOrders))]
         public async Task<OrderListDTO> GetOrders()
         {
@@ -37,6 +39,7 @@ namespace DrinkStore.API.Controllers
             return _orders;
         }
 
+        [Authorize(Policy = "order:read")]
         [HttpGet("{id}", Name = nameof(GetOrder))]
         public async Task<DetailedOrderDTO> GetOrder(int id)
         {
@@ -44,6 +47,7 @@ namespace DrinkStore.API.Controllers
             return await _orderService.GetOrder(id);
         }
 
+        [Authorize(Policy = "order:create")]
         [HttpPost(Name = nameof(AddOrder))]
         public async Task<DetailedOrderDTO> AddOrder([FromBody] List<OrderEntryDTO> orders)
         {

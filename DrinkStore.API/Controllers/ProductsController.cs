@@ -13,7 +13,6 @@ using RiskFirst.Hateoas.Models;
 
 namespace DrinkStore.API.Controllers
 {
-    //[Authorize(Policy = "product:read")]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
@@ -53,6 +52,7 @@ namespace DrinkStore.API.Controllers
             return _products;
         }
 
+        [Authorize(Policy = "product")]
         [HttpPost(Name = nameof(AddProduct))]
         public async Task<ActionResult<ProductDTO>> AddProduct(ProductCreateDTO newProduct)
         {
@@ -71,6 +71,7 @@ namespace DrinkStore.API.Controllers
             return product;
         }
 
+        [Authorize(Policy = "product")]
         [HttpPut("{id}", Name = nameof(UpdateProduct))]
         public async Task<ActionResult> UpdateProduct(int id, ProductCreateDTO productToUpdate)
         {
@@ -79,6 +80,7 @@ namespace DrinkStore.API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "product")]
         [HttpDelete("{id}", Name = nameof(DeleteProduct))]
         public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
         {
