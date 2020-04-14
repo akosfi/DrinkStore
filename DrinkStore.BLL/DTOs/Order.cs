@@ -7,6 +7,14 @@ using System.Text;
 
 namespace DrinkStore.BLL.DTOs
 {
+    public class OrderListDTO : DTO
+    {
+        public List<OrderDTO> Orders { get; set; }
+        public OrderListDTO(List<OrderDTO> _orders)
+        {
+            Orders = _orders;
+        }
+    }
     public class OrderDTO
     {
         public int Id { get; set; }
