@@ -13,7 +13,7 @@
             v-for="subcategory in category.subcategories"
             :key="subcategory.id"
             class="category-list-item-subs"
-            v-bind:class="{ 'category-list-item-subs-hidden': category.id !== currentCategoryId }">
+            v-bind:class="{ 'category-list-item-subs-hidden': category.id !== getSelectedCategory }">
             <p 
             v-on:click="subcategoryClicked(subcategory.id)"
             class="category-list-item-subs-item">

@@ -11,27 +11,59 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Products</a>
           </li>
-          <li class="nav-item">
+          <li 
+            v-if="isLoggedIn"
+            class="nav-item">
             <a class="nav-link" href="#">Orders</a>
           </li>
         </ul>
         <div>
-          <span>akos@akos.com</span>
-          <button type="button" class="btn btn-primary">Logout</button>
+          <div v-if="!isLoggedIn">
+            <button 
+              v-on:click="login"
+              type="button"
+              class="btn btn-primary">Login</button>
+          </div>
+          <div v-if="isLoggedIn">
+            <span>{{email}}</span>
+            <button 
+              v-on:click="logout"
+              type="button"
+              class="btn btn-primary">Logout</button>
+          </div>
         </div>
       </div>
     </div>
-    
   </nav>
-  
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import { mapGetters } from 'vuex'
+  import authService from '../services/AuthService';
 
   export default Vue.extend({
-    
+    data: function() {
+      return {
+        email: "" as string | undefined,
+        isLoggedIn: false as boolean,
+      }
+    },
+    methods: {
+      logout: function() {
+        authService.logout();
+      },
+      login: function() {
+        authService.login();
+      }
+    },
+    mounted: function() {
+      authService.getUser().then((user) => {
+        this.email = user?.profile?.email;
+      });
+      authService.isLoggedIn().then((isLoggedIn) => {
+        this.isLoggedIn = isLoggedIn;
+      });
+    }
   });
 </script>
 

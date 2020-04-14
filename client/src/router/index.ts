@@ -38,10 +38,11 @@ router.beforeEach((to, from, next) => {
       if (isLoggedIn) {
         next();
       } else {
-        next({
+        authService.login();
+        /*next({
           path: '/login',
           query: { redirect: to.fullPath }
-        });
+        });*/
       }
     });
   } else {
