@@ -46,7 +46,7 @@ namespace DrinkStore.API.Controllers
 
 
         [Authorize(Policy = "cat")]
-        [HttpDelete("{id}/sub/{sid}", Name = nameof(DeleteCategory))]
+        [HttpDelete("{id}/sub/{sid}", Name = nameof(DeleteSubcategory))]
         public async void DeleteSubcategory(int sid)
         {
             await _categoryService.DeleteSubCategory(sid);

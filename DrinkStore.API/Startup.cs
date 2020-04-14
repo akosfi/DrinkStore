@@ -50,7 +50,7 @@ namespace DrinkStore.API
             });
 
             services.AddDbContext<DrinkStoreContext>(o =>
-                o.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+                o.UseNpgsql(Configuration["ConnectionStrings:pgConnection"]));
 
             services.AddAuthentication(options =>
             {

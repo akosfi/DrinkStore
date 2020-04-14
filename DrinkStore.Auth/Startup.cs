@@ -32,7 +32,7 @@ namespace DrinkStore.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DrinkStoreContext>(o =>
-                o.UseSqlServer(Configuration.GetConnectionString("Default")));
+                o.UseNpgsql(Configuration.GetConnectionString("pgConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<DrinkStoreContext>()
@@ -44,9 +44,9 @@ namespace DrinkStore.Auth
                 .AddDeveloperSigningCredential()
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(
-                        Configuration.GetConnectionString("Default"),
-                        sqlServerOptionsAction: sqlOptions =>
+                    options.ConfigureDbContext = builder => builder.UseNpgsql(
+                        Configuration.GetConnectionString("pgConnection"),
+                        npgsqlOptionsAction: sqlOptions =>
                         {
                             sqlOptions.MigrationsAssembly(migrationsAssembly);
                         });
