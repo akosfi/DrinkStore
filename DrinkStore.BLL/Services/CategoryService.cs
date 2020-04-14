@@ -18,6 +18,7 @@ namespace DrinkStore.BLL.Services
         {
             _context = context;
         }
+
         public async Task<IEnumerable<CategoryDTO>> GetCategories()
         {
             return await _context
@@ -66,5 +67,41 @@ namespace DrinkStore.BLL.Services
 
             return newSubcategory;
         }
+
+        public async Task DeleteCategory(int id)
+        {
+            //TODO does it delete subcategories??
+            Category category = await _context
+                .Categories
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (category == null) return;
+
+            _context
+                .Categories
+                .Remove(category);
+
+            await _context
+                .SaveChangesAsync();
+        }
+
+        public async Task DeleteSubCategory(int id)
+        {
+            Subcategory category = await _context
+                .Subcategories
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (category == null) return;
+
+            _context
+                .Subcategories
+                .Remove(category);
+
+            await _context
+                .SaveChangesAsync();
+        }
+
     }
 }

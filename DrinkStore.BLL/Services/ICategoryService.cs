@@ -12,5 +12,7 @@ namespace DrinkStore.BLL.Services
         Task<IEnumerable<CategoryDTO>> GetCategories();
         Task<CategoryDTO> InsertCategory(CategoryDTO newCategory);
         Task<SubcategoryDTO> InsertSubcategory(SubcategoryDTO newSubcategory);
+        Task DeleteCategory(int id);
+        Task DeleteSubCategory(int id);
     }
 }

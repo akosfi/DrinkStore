@@ -15,7 +15,7 @@ namespace DrinkStore.BLL.DTOs
             Orders = _orders;
         }
     }
-    public class OrderDTO
+    public class OrderDTO : DTO
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }

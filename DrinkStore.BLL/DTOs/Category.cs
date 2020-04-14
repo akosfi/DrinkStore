@@ -7,7 +7,15 @@ using System.Text;
 
 namespace DrinkStore.BLL.DTOs
 {
-    public class CategoryDTO
+    public class CategoryListDTO : DTO
+    {
+        public List<CategoryDTO> Categories { get; set; }
+        public CategoryListDTO(List<CategoryDTO> _categories)
+        {
+            Categories = _categories;
+        }
+    }
+    public class CategoryDTO : DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -29,7 +37,7 @@ namespace DrinkStore.BLL.DTOs
         }
     }
 
-    public class SubcategoryDTO
+    public class SubcategoryDTO : DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

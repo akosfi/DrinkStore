@@ -27,10 +27,19 @@ namespace DrinkStore.API.Utilities
                           .RequireRoutedLink("add", "AddProduct");
                 });
 
+                config.AddPolicy<OrderListDTO>(policy => {
+                    policy.RequireSelfLink()
+                          .RequireRoutedLink("add", "AddOrder");
+                });
+
                 config.AddPolicy<ProductDTO>(policy => {
                     policy.RequireSelfLink()
                           .RequireRoutedLink("update", "UpdateProduct", x => new { id = x.Id })
                           .RequireRoutedLink("delete", "DeleteProduct", x => new { id = x.Id });
+                });
+
+                config.AddPolicy<DetailedOrderDTO>(policy => {
+                    policy.RequireSelfLink();
                 });
             });
         }
