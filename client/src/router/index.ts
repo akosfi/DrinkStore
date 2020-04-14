@@ -6,19 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../pages/Login.vue'),
-    meta: {
-      isSecure: false
-    }
-  },
-  {
     path: '/',
     name: 'Products',
     component: () => import('../pages/Products.vue'),
     meta: {
-      isSecure: true
+      isSecure: false
     }
   }
 ]
