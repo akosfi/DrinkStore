@@ -56,6 +56,10 @@ namespace DrinkStore.Auth.Controllers
 
             if (button != "login")
             {
+                if(button == "register")
+                {
+                    return RedirectToAction("Register", "Account", new { returnUrl = model.ReturnUrl });
+                }
                 if (context != null)
                 {
                     await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
@@ -113,26 +117,39 @@ namespace DrinkStore.Auth.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterRequestModel model)
+        [HttpGet]
+        public async Task<IActionResult> Register(string returnUrl)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            return View(await BuildRegisterViewModelAsync(returnUrl));
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterInputModel model, string button)
+        {
+            if (button != "register")
+            {
+                return RedirectToAction("Login", "Account", new { returnUrl = model.ReturnUrl });
+            }
+            
+            if (!ModelState.IsValid)
+            { 
+                return View(await BuildRegisterViewModelAsync(model));
+            }
             var user = new User { UserName = model.Email, Name = model.Name, Email = model.Email };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) {
+                result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
+                return View(await BuildRegisterViewModelAsync(model));
+            }
 
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("userName", user.UserName));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("name", user.Name));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Consumer));
 
-            return Ok(new RegisterResponseModel(user));
+            return RedirectToAction("Login", "Account", new { returnUrl = model.ReturnUrl });
         }
 
 
@@ -199,6 +216,21 @@ namespace DrinkStore.Auth.Controllers
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
             vm.Username = model.Username;
             vm.RememberLogin = model.RememberLogin;
+            return vm;
+        }
+
+        private async Task<RegisterInputModel> BuildRegisterViewModelAsync(String returnUrl)
+        {
+            var vm = new RegisterViewModel();
+            vm.ReturnUrl = returnUrl;
+            return vm;
+        }
+
+        private async Task<RegisterInputModel> BuildRegisterViewModelAsync(RegisterInputModel model)
+        {
+            var vm = await BuildRegisterViewModelAsync(model.ReturnUrl);
+            vm.Name = model.Name;
+            vm.Email = model.Email;
             return vm;
         }
     }
