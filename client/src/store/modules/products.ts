@@ -10,15 +10,15 @@ const getters = {
 };
 const actions = {
     getProductsAction({commit}, {categoryId, subcategoryId}) {
-        let url = '/products?';
+        let url = '/api/products?';
         url += categoryId ? 'categoryId=' + categoryId : '';
         url += subcategoryId ? '&subcategoryId=' + subcategoryId : '';
 
         return new Promise((resolve, reject) => {
             makeRequest(url, {})
-            .then((products) => {
-                commit('addProducts', products);
-                resolve(products);
+            .then((response) => {
+                commit('addProducts', response.products);
+                resolve(response.products);
             })
             .catch((err) => {
                 console.log(err);

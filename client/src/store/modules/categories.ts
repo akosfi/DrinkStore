@@ -16,7 +16,7 @@ const getters = {
 const actions = {
     getCategoriesAction({commit}) {
         return new Promise((resolve, reject) => {
-            makeRequest('/categories', {})
+            makeRequest('/api/categories', {})
             .then((categories) => {
                 commit('addCategories', categories);
                 resolve(categories);

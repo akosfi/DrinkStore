@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <div class="container-fluid">
-      
-      <router-view/>
-    </div>
+    <nav-bar/>
+    <router-view/>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  //import { mapGetters } from 'vuex'
+  import NavBar from './components/NavBar.vue';
 
   export default Vue.extend({
+    components: {
+      NavBar,
+    }
   });
 </script>
 

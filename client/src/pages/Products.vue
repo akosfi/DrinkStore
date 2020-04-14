@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
       <div class="row">
         <div class="col-3">
             <product-categories></product-categories>
@@ -15,7 +15,6 @@
   import Vue from 'vue';
   import ProductCategories from '../components/ProductCategories.vue';
   import ProductList from '../components/ProductList.vue';
-  //import { mapGetters } from 'vuex'
 
   export default Vue.extend({
     components: {
