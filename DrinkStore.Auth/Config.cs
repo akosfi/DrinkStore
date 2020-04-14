@@ -45,9 +45,9 @@ namespace DrinkStore.Auth
                     ClientName = "Vue APP",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowedScopes = { "openid", "profile", "email", "cat", "cat:read", "product", "product:read", "order"},
-                    RedirectUris = {"http://localhost:4200/auth-callback"},
-                    PostLogoutRedirectUris = {"http://localhost:4200/"},
-                    AllowedCorsOrigins = {"http://localhost:4200"},
+                    RedirectUris = {"http://localhost:8080/auth-callback.html"},
+                    PostLogoutRedirectUris = {"http://localhost:8080/"},
+                    AllowedCorsOrigins = {"http://localhost:8080"},
                     AllowAccessTokensViaBrowser = true,
                     AccessTokenLifetime = 3600
                 }
