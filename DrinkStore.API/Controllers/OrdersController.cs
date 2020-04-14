@@ -21,8 +21,8 @@ namespace DrinkStore.API.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IEnumerable<OrderDTO>> Get()
+        [HttpGet(Name = nameof(GetOrders))]
+        public async Task<IEnumerable<OrderDTO>> GetOrders()
         {
             return await _orderService.GetOrders();
         }

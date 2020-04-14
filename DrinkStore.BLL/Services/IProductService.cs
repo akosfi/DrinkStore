@@ -13,7 +13,7 @@ namespace BLL.Services
         Task<IEnumerable<ProductDTO>> GetProducts();
         Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(int categoryId);
         Task<IEnumerable<ProductDTO>> GetProductsBySubCategoryId(int subcategoryId);
-        Task<DrinkStore.DAL.Entities.Product> InsertProduct(ProductCreateDTO newProduct);
+        Task<ProductDTO> InsertProduct(ProductCreateDTO newProduct);
         Task UpdateProduct(int productId, ProductCreateDTO updatedProduct);
         void DeleteProduct(int productId);
     }

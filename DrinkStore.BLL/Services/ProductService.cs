@@ -71,7 +71,7 @@ namespace BLL.Services
                 .Select(ProductDTO.CreateFromProduct())
                 .ToListAsync();
         }
-        public async Task<Product> InsertProduct(ProductCreateDTO newProduct)
+        public async Task<ProductDTO> InsertProduct(ProductCreateDTO newProduct)
         {
             Product product = new Product
             {
@@ -89,7 +89,7 @@ namespace BLL.Services
             await _context
                 .SaveChangesAsync();
 
-            return product;
+            return ProductDTO.CreateProduct(product);
         }
         public async Task UpdateProduct(int productId, ProductCreateDTO updatedProduct)
         {

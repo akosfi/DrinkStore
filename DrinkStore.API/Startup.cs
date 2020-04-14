@@ -16,6 +16,10 @@ using Microsoft.EntityFrameworkCore;
 using BLL.Services;
 using DrinkStore.BLL.Services;
 using System.Security.Claims;
+using RiskFirst.Hateoas;
+using RiskFirst.Hateoas.Models;
+using DrinkStore.BLL.DTOs;
+using DrinkStore.API.Utilities;
 
 namespace DrinkStore.API
 {
@@ -65,12 +69,13 @@ namespace DrinkStore.API
                 options.AddPolicy("Consumer", policy => policy.RequireClaim(ClaimTypes.Role, "consumer"));
             });
 
-
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IOrderService, OrderService>();
 
             services.AddControllers();
+
+            services.AddHateoas();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

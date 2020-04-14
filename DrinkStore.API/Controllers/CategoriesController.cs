@@ -20,8 +20,8 @@ namespace DrinkStore.API.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<CategoryDTO>> Get()
+        [HttpGet(Name = nameof(GetCategories))]
+        public async Task<IEnumerable<CategoryDTO>> GetCategories()
         {
             return await _categoryService.GetCategories();
         }

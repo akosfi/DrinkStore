@@ -8,42 +8,79 @@ using DrinkStore.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RiskFirst.Hateoas;
+using RiskFirst.Hateoas.Models;
 
 namespace DrinkStore.API.Controllers
 {
-    [Authorize(Policy = "product:read")]
+    //[Authorize(Policy = "product:read")]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
 
         private readonly IProductService _productService;
+        private readonly ILinksService _linksService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ILinksService linksService)
         {
             _productService = productService;
+            _linksService = linksService;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<ProductDTO>> Get([FromQuery] int? categoryId, [FromQuery] int? subcategoryId)
+        [HttpGet(Name = nameof(GetProducts))]
+        public async Task<ActionResult<ProductListDTO>> GetProducts([FromQuery] int? categoryId, [FromQuery] int? subcategoryId)
         {
-            if(subcategoryId != null)
+            IEnumerable<ProductDTO> products;
+            if (subcategoryId != null)
             {
-                return await _productService.GetProductsBySubCategoryId((int)subcategoryId);
+                products = await _productService.GetProductsBySubCategoryId((int)subcategoryId);
             }
-            else if(categoryId != null)
+            else if (categoryId != null)
             {
-                return await _productService.GetProductsByCategoryId((int)categoryId);
+                products = await _productService.GetProductsByCategoryId((int)categoryId);
             }
             else
             {
-                return await _productService.GetProducts();
+                products = await _productService.GetProducts();
             }
-            
+
+            ProductListDTO _products = new ProductListDTO(products.ToList());
+            _products.Products.ForEach(async p => await _linksService.AddLinksAsync(p));
+
+            await _linksService.AddLinksAsync(_products);
+
+            return _products;
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<ProductDTO>> Get(int id)
+        [HttpPost(Name = nameof(AddProduct))]
+        public async Task<ActionResult<ProductDTO>> AddProduct(ProductCreateDTO newProduct)
+        {
+            var product = await _productService.InsertProduct(newProduct);
+            await _linksService.AddLinksAsync(product);
+            return product;
+        }
+
+
+        [HttpGet("{id}", Name = nameof(GetProduct))]
+        public async Task<ActionResult<ProductDTO>> GetProduct(int id)
+        {
+            if (id == 0) throw new ArgumentException();
+            var product = await _productService.GetProduct(id);
+            await _linksService.AddLinksAsync(product);
+            return product;
+        }
+
+        [HttpPut("{id}", Name = nameof(UpdateProduct))]
+        public async Task<ActionResult> UpdateProduct(int id, ProductCreateDTO productToUpdate)
+        {
+            if (id == 0) throw new ArgumentException();
+            await _productService.UpdateProduct(id, productToUpdate);
+            return Ok();
+        }
+
+        [HttpDelete("{id}", Name = nameof(DeleteProduct))]
+        public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
         {
             if (id == 0) throw new ArgumentException();
             return await _productService.GetProduct(id);
