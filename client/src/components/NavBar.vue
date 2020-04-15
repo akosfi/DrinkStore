@@ -9,14 +9,25 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Termékek</a>
+            <router-link
+              to="/"
+              class="nav-link"
+            >
+            Termékek
+            </router-link>
           </li>
           <li 
             v-if="isLoggedIn"
             class="nav-item">
-            <a class="nav-link" href="#">Megrendeléseim</a>
+            <router-link
+              to="/orders"
+              class="nav-link"
+            >
+            Megrendeléseim
+            </router-link>
           </li>
         </ul>
+        
         <div>
           <div v-if="!isLoggedIn">
             <button 

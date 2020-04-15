@@ -4,7 +4,7 @@
           <div class="product-name"></div>
           <div class="product-packsize"><b>Kiszerelés</b></div>
           <div class="product-price"><b>Ár</b></div>
-          <div v-if="isLoggedIn" class="product-button"></div>
+          <div v-if="isLoggedIn" class="product-order"></div>
         </div>
         <div 
             v-for="product in getProducts"
@@ -24,8 +24,30 @@
             </div>
             <div 
                 v-if="isLoggedIn"
-                class="product-button">
-                <button type="button" class="btn btn-primary">Rendelés</button>
+                class="product-order">
+                
+                <div 
+                  v-if="currentOrder.id != product.id"
+                  class="input-group">
+                  <button 
+                    v-if="currentOrder.id !== product.id"
+                    v-on:click="setCurrentOrder(product.id)"
+                    class="btn btn-primary"
+                    type="button">
+                    Rendelés</button>
+                </div>
+
+                <div 
+                  v-if="currentOrder.id == product.id"
+                  class="input-group">
+                  <select v-model="currentOrder.quantity" class="custom-select" id="inputGroupSelect04">
+                    <option v-for="i in 20" :key="i" v-bind:value="i">{{i}}</option>
+                  </select>
+                  <div class="input-group-append">
+                    <button v-on:click="addToCart" class="btn btn-outline-primary" type="button">Kosárba</button>
+                  </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -41,6 +63,10 @@
     data: function() {
       return {
         isLoggedIn: false,
+        currentOrder: {
+          id: null,
+          quantity: 1,
+        }
       }
     },
     computed: {
@@ -52,6 +78,15 @@
       authService.isLoggedIn().then((isLoggedIn) => {
         this.isLoggedIn = isLoggedIn;
       });
+    },
+    methods: {
+      setCurrentOrder: function(id) {
+        this.currentOrder = {id: id, quantity: 1};
+      },
+      addToCart: function() {
+        this.$store.dispatch('cart/addProductAction', this.currentOrder);
+        this.currentOrder = {id: null, quantity: 1};
+      },
     }
   });
 </script>
@@ -75,8 +110,8 @@
       flex: 0 0 10%;
     }
 
-    &-button {
-      flex: 0 0 15%;
+    &-order {
+      flex: 0 0 20%;
     }
   }
 </style>

@@ -31,6 +31,11 @@ const actions = {
 const mutations = {
     addProducts(state, products) {
         state.products = products;
+    },
+    addProduct(state, product) {
+        if(state.products.find(p => p.id === product.id) != null) {
+            state.products.push(product);
+        }
     }
 };
 
