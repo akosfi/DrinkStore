@@ -42,6 +42,8 @@ class AuthService {
     public async isLoggedIn(): Promise<boolean> {
         const user: User | null = await this.getUser();
 
+        console.log(user);
+
         return (user !== null && !user.expired);
     }
 }

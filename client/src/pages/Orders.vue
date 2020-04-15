@@ -38,14 +38,15 @@
             <div class="col-3">
                 <h3 class="py-3">Megrendelések</h3>
                 <ul class="list-group">
-                    <li class="list-group-item active">
-                        <span>Azonosító: 2328</span>
-                        <span>Dátum: 2020. 02. 02.</span>
+                    <li 
+                        v-on:click="setCurrentOrder(order.id)"
+                        v-bind:class="{ 'active': getCurrentOrder && getCurrentOrder.id == order.id }"
+                        v-for="order in getOrders"
+                        v-bind:key="order.id"
+                        class="list-group-item">
+                        <span>Azonosító: {{order.id}}</span>
+                        <span>Dátum: {{order.orderDate}}</span>
                     </li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
                 </ul>
             </div>
             <div class="col-9">
@@ -66,6 +67,8 @@
         computed: {
             ...mapGetters({
                 getCart: 'cart/getProducts',
+                getOrders: 'orders/getOrders',
+                getCurrentOrder: 'orders/getCurrentOrder'
             }),
             getTotalPrice: function() {
                 let sum = 0;
@@ -81,7 +84,13 @@
             },
             makeOrder: function() {
                 this.$store.dispatch('cart/makeOrderAction');
+            },
+            setCurrentOrder: function(id) {
+                this.$store.dispatch('orders/getOrderAction', id);
             }
+        },
+        mounted: function(){
+            this.$store.dispatch('orders/getOrdersAction');
         }
     });
 </script>
