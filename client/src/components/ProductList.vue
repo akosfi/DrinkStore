@@ -44,7 +44,7 @@
                     <option v-for="i in 20" :key="i" v-bind:value="i">{{i}}</option>
                   </select>
                   <div class="input-group-append">
-                    <button v-on:click="addToCart" class="btn btn-outline-primary" type="button">Kosárba</button>
+                    <button v-on:click="addToCart(product)" class="btn btn-outline-primary" type="button">Kosárba</button>
                   </div>
                 </div>
 
@@ -83,8 +83,8 @@
       setCurrentOrder: function(id) {
         this.currentOrder = {id: id, quantity: 1};
       },
-      addToCart: function() {
-        this.$store.dispatch('cart/addProductAction', this.currentOrder);
+      addToCart: function(product) {
+        this.$store.dispatch('cart/addProductAction', {...this.currentOrder, ...product});
         this.currentOrder = {id: null, quantity: 1};
       },
     }

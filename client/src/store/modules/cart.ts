@@ -36,8 +36,9 @@ const actions = {
         });
     },
     makeOrderAction({commit, state}){
+        const order = state.products.map(x => ({id: x.id, quantity: x.quantity}));
         return new Promise((resolve, reject) => {
-            makeRequest('/api/orders', state.products, RequestMethod.POST)
+            makeRequest('/api/orders', order, RequestMethod.POST)
             .then(() => {
                 commit('removeAllProduct');
                 //TODO add order
