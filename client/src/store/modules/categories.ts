@@ -3,6 +3,7 @@ import {makeRequest} from '../../util';
 const state = {
     categories: [],
     selected: 0,
+    subSelected: 0,
 };
 
 const getters = {
@@ -11,6 +12,9 @@ const getters = {
     },
     getSelectedCategory: function() {
         return state.selected;
+    },
+    getSelectedSubCategory: function() {
+        return state.subSelected;
     },
 };
 const actions = {
@@ -35,6 +39,9 @@ const mutations = {
     },
     setSelectedCategory(state, selectedId) {
         state.selected = selectedId;
+    },
+    setSelectedSubCategory(state, selectedId) {
+        state.subSelected = selectedId;
     }
 };
 
