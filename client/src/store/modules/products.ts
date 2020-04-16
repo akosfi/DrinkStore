@@ -1,4 +1,4 @@
-import {makeRequest} from '../../util';
+import {request} from '../../util';
 
 const state = {
     products: [],
@@ -15,7 +15,7 @@ const actions = {
         url += subcategoryId ? '&subcategoryId=' + subcategoryId : '';
 
         return new Promise((resolve, reject) => {
-            makeRequest(url, {})
+            request.make(url, {})
             .then((response) => {
                 commit('addProducts', response.products);
                 resolve(response.products);

@@ -1,4 +1,4 @@
-import {makeRequest} from '../../util';
+import {request} from '../../util';
 
 const state = {
     categories: [],
@@ -20,7 +20,7 @@ const getters = {
 const actions = {
     getCategoriesAction({commit}) {
         return new Promise((resolve, reject) => {
-            makeRequest('/api/categories', {})
+            request.make('/api/categories', {})
             .then((data) => {
                 commit('addCategories', data.categories);
                 resolve(data.categories);

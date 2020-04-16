@@ -1,4 +1,5 @@
 import { UserManager, WebStorageStateStore, User, UserManagerSettings } from "oidc-client";
+import {request} from '../util/';
 
 class AuthService {
     userManager: UserManager;
@@ -25,6 +26,10 @@ class AuthService {
         };
 
         this.userManager = new UserManager(settings);
+        this.userManager.events.addUserLoaded(user => {
+            console.log(user);
+            request.setAccessToken(user.access_token);
+        });
     }
 
     public getUser(): Promise<User | null> {
@@ -42,10 +47,10 @@ class AuthService {
     public async isLoggedIn(): Promise<boolean> {
         const user: User | null = await this.getUser();
 
-        console.log(user);
-
         return (user !== null && !user.expired);
     }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+
+export default authService;

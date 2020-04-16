@@ -1,4 +1,4 @@
-import {makeRequest, RequestMethod} from '../../util';
+import {request, RequestMethod} from '../../util';
 
 const state = {
     products: [],
@@ -38,7 +38,7 @@ const actions = {
     makeOrderAction({commit, state, dispatch}){
         const order = state.products.map(x => ({id: x.id, quantity: x.quantity}));
         return new Promise((resolve, reject) => {
-            makeRequest('/api/orders', order, RequestMethod.POST)
+            request.make('/api/orders', order, RequestMethod.POST)
             .then(() => {
                 commit('removeAllProduct');
                 dispatch('orders/getOrdersAction', {}, {root: true})

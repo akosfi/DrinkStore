@@ -1,4 +1,4 @@
-import {makeRequest, RequestMethod} from '../../util';
+import {request, RequestMethod} from '../../util';
 
 const state = {
     orders: [],
@@ -16,7 +16,7 @@ const getters = {
 const actions = {
     getOrdersAction({commit, state}){
         return new Promise((resolve, reject) => {
-            makeRequest('/api/orders', {}, RequestMethod.GET)
+            request.make('/api/orders', {}, RequestMethod.GET)
             .then((response) => {
                 commit('addOrders', response.orders);
                 resolve();
@@ -29,7 +29,7 @@ const actions = {
     },
     getOrderAction({commit, state}, id) {
         return new Promise((resolve, reject) => {
-            makeRequest(`/api/orders/${id}`, {}, RequestMethod.GET)
+            request.make(`/api/orders/${id}`, {}, RequestMethod.GET)
             .then((response) => {
                 commit('setCurrentOrder', response);
                 resolve();
