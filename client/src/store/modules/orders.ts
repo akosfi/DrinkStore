@@ -2,7 +2,7 @@ import {makeRequest, RequestMethod} from '../../util';
 
 const state = {
     orders: [],
-    currentOrder: [],
+    currentOrder: null,
 }
 
 const getters = {

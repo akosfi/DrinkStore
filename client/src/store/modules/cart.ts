@@ -35,13 +35,13 @@ const actions = {
             resolve();
         });
     },
-    makeOrderAction({commit, state}){
+    makeOrderAction({commit, state, dispatch}){
         const order = state.products.map(x => ({id: x.id, quantity: x.quantity}));
         return new Promise((resolve, reject) => {
             makeRequest('/api/orders', order, RequestMethod.POST)
             .then(() => {
                 commit('removeAllProduct');
-                //TODO add order
+                dispatch('orders/getOrdersAction', {}, {root: true})
                 resolve();
             })
             .catch((err) => {

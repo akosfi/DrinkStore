@@ -34,7 +34,7 @@ namespace DrinkStore.BLL.DTOs
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public ICollection<OrderEntryDTO> Products { get; set; } = new List<OrderEntryDTO>();
+        public ICollection<DetailedOrderEntryDTO> Products { get; set; } = new List<DetailedOrderEntryDTO>();
 
         public static Expression<Func<Order, DetailedOrderDTO>> CreateFromOrder()
         {
@@ -42,9 +42,13 @@ namespace DrinkStore.BLL.DTOs
             {
                 Id = o.Id,
                 OrderDate = o.OrderDate,
-                Products = o.ProductOrders.Select(o => new OrderEntryDTO
+                Products = o.ProductOrders.Select(o => new DetailedOrderEntryDTO
                 {
                     Id = o.ProductId,
+                    Name = o.Product.Name,
+                    UnitPrice = o.Product.UnitPrice,
+                    PackSizeQuantity = o.Product.PackSize.Quanitity,
+                    PackSizeUnit = o.Product.PackSize.Unit,
                     Quantity = o.Quantity
                 }).ToList()
             };
@@ -54,6 +58,16 @@ namespace DrinkStore.BLL.DTOs
     public class OrderEntryDTO
     {
         public int Id { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    public class DetailedOrderEntryDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int UnitPrice { get; set; }
+        public double PackSizeQuantity { get; set; }
+        public string PackSizeUnit { get; set; }
         public int Quantity { get; set; }
     }
 }

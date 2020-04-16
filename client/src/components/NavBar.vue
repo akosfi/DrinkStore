@@ -8,7 +8,9 @@
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active">
+          <li 
+            class="nav-item"
+            v-bind:class="{ 'active': isRouteActive('/') }">
             <router-link
               to="/"
               class="nav-link"
@@ -18,7 +20,8 @@
           </li>
           <li 
             v-if="isLoggedIn"
-            class="nav-item">
+            class="nav-item"
+            v-bind:class="{ 'active': isRouteActive('/orders') }">
             <router-link
               to="/orders"
               class="nav-link"
@@ -65,6 +68,9 @@
       },
       login: function() {
         authService.login();
+      },
+      isRouteActive: function(route) {
+        return this.$route.path === route;
       }
     },
     mounted: function() {

@@ -33,10 +33,10 @@
             </div>
         </div>
         
-
+        
+        <h3 class="py-3">Megrendelések</h3>
         <div class="row">
             <div class="col-3">
-                <h3 class="py-3">Megrendelések</h3>
                 <ul class="list-group">
                     <li 
                         v-on:click="setCurrentOrder(order.id)"
@@ -45,12 +45,32 @@
                         v-bind:key="order.id"
                         class="list-group-item">
                         <span>Azonosító: {{order.id}}</span>
-                        <span>Dátum: {{order.orderDate}}</span>
+                        <span>Dátum: {{formatDate(order.orderDate)}}</span>
                     </li>
                 </ul>
             </div>
-            <div class="col-9">
-                
+            <div v-if="getCurrentOrder" class="col-9">
+                <div class="row order-detail">
+                    <div class="col-4 order-detail-key">Azonosító</div>
+                    <div class="col-8 order-detail-value order-detail-value-text">{{getCurrentOrder.id}}</div>
+                </div>
+                <div class="row order-detail">
+                    <div class="col-4 order-detail-key">Dátum</div>
+                    <div class="col-8 order-detail-value order-detail-value-text">{{formatDate(getCurrentOrder.orderDate)}}</div>
+                </div>
+                <div class="row order-detail">
+                    <div class="col-4 order-detail-key">Termékek</div>
+                    <div class="col-8 order-detail-value order-detail-value-list">
+                        <div
+                            v-for="product in getCurrentOrder.products"
+                            v-bind:key="product.id"
+                            class="order-detail-value-list-item"
+                        >
+                            <span>{{product.name}}</span>
+                            <span>{{product.quantity}} x {{product.packSizeQuantity + " " + product.packSizeUnit}}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
   </div>
@@ -87,6 +107,9 @@
             },
             setCurrentOrder: function(id) {
                 this.$store.dispatch('orders/getOrderAction', id);
+            },
+            formatDate: function(dateString) {
+                return (new Date(dateString)).toLocaleString();
             }
         },
         mounted: function(){
@@ -124,6 +147,26 @@
         &-dbutton {
             text-align: right;
             flex: 0 0 15%;
+        }
+    }
+    .order-detail {
+        &-key {
+            padding: 8px;
+            background: #ededed;
+            font-weight: bold;
+        }
+        &-value {
+            padding: 8px;
+            &-text {
+                text-align: right;
+            }
+            &-list {
+                &-item {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+            
         }
     }
 </style>
