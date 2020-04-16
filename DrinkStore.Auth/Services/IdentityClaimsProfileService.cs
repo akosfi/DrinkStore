@@ -8,6 +8,7 @@ using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -31,7 +32,9 @@ namespace DrinkStore.Auth.Services
             var user = await _userManager.FindByIdAsync(sub);
             var principal = await _claimsFactory.CreateAsync(user);
 
+
             var claims = principal.Claims.ToList();
+
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.Name));
             claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));

@@ -6,6 +6,7 @@ using DrinkStore.Auth.Constants;
 using DrinkStore.Auth.Models;
 using DrinkStore.DAL.Entities;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
@@ -115,6 +116,29 @@ namespace DrinkStore.Auth.Controllers
 
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                await _signInManager.SignOutAsync();
+
+                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+            }
+
+            var logout = await _interaction.GetLogoutContextAsync(logoutId);
+
+            if (logout.PostLogoutRedirectUri != null)
+            {
+                return Redirect(logout.PostLogoutRedirectUri);
+            }
+
+            return Redirect("~/Account/Login");
+
+
         }
 
         [HttpGet]
