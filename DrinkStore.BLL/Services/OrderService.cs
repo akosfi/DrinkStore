@@ -24,6 +24,8 @@ namespace DrinkStore.BLL.Services
             return await _context
                 .Orders
                 .Include(o => o.ProductOrders)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(p => p.PackSize)
                 .Where(o => o.Id == orderId)
                 .Select(DetailedOrderDTO.CreateFromOrder())
                 .SingleOrDefaultAsync();

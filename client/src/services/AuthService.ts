@@ -12,7 +12,7 @@ class AuthService {
             client_id: "vue_app",
             redirect_uri: "http://localhost:8080/auth-callback.html",
             response_type: "id_token token",
-            scope: "openid profile email",
+            scope: "openid profile email order:read order:create",
             post_logout_redirect_uri: "http://localhost:8080/",
             filterProtocolClaims: true,
             metadata: {
@@ -41,6 +41,8 @@ class AuthService {
 
     public async isLoggedIn(): Promise<boolean> {
         const user: User | null = await this.getUser();
+
+        console.log(user);
 
         return (user !== null && !user.expired);
     }

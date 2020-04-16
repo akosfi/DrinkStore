@@ -12,10 +12,16 @@ const routes = [
     meta: {
       isSecure: false
     }
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import('../pages/Orders.vue'),
+    meta: {
+      isSecure: true
+    }
   }
 ]
-
-
 
 const router = new VueRouter({
   mode: 'history',
@@ -31,10 +37,6 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         authService.login();
-        /*next({
-          path: '/login',
-          query: { redirect: to.fullPath }
-        });*/
       }
     });
   } else {

@@ -8,15 +8,29 @@
 
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Termékek</a>
+          <li 
+            class="nav-item"
+            v-bind:class="{ 'active': isRouteActive('/') }">
+            <router-link
+              to="/"
+              class="nav-link"
+            >
+            Termékek
+            </router-link>
           </li>
           <li 
             v-if="isLoggedIn"
-            class="nav-item">
-            <a class="nav-link" href="#">Megrendeléseim</a>
+            class="nav-item"
+            v-bind:class="{ 'active': isRouteActive('/orders') }">
+            <router-link
+              to="/orders"
+              class="nav-link"
+            >
+            Megrendeléseim
+            </router-link>
           </li>
         </ul>
+        
         <div>
           <div v-if="!isLoggedIn">
             <button 
@@ -54,6 +68,9 @@
       },
       login: function() {
         authService.login();
+      },
+      isRouteActive: function(route) {
+        return this.$route.path === route;
       }
     },
     mounted: function() {

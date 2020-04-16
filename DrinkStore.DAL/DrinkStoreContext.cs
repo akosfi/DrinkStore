@@ -22,7 +22,10 @@ namespace DrinkStore.DAL
         public DbSet<PackSize> PackSizes { get; set; }
         public DbSet<ProductOrder> ProductOrders { get; set; }
 
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseNpgsql("Host=kandula.db.elephantsql.com;Database=jqjxpuud;Username=jqjxpuud;Password=k7EK5Es2_t5DFVBejpzBbTOE3BuKoB5o");
+        
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -17,9 +17,9 @@ const actions = {
     getCategoriesAction({commit}) {
         return new Promise((resolve, reject) => {
             makeRequest('/api/categories', {})
-            .then((categories) => {
-                commit('addCategories', categories);
-                resolve(categories);
+            .then((data) => {
+                commit('addCategories', data.categories);
+                resolve(data.categories);
             })
             .catch((err) => {
                 console.log(err);
