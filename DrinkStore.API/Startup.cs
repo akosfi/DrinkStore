@@ -58,7 +58,7 @@ namespace DrinkStore.API
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                o.Authority = "https://localhost:44301";
+                o.Authority = Configuration["OAuthURL"];
                 o.Audience = "resourceapi";
                 o.RequireHttpsMetadata = false;
             });
