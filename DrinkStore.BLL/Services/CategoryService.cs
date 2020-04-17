@@ -24,11 +24,11 @@ namespace DrinkStore.BLL.Services
             return await _context
                 .Categories
                 .Include(c => c.Subcategories)
-                .Select(CategoryDTO.CreateFromCategory())
+                .Select(CategoryDTO.CreateFromCategoryExpression())
                 .ToListAsync();
         }
 
-        public async Task<CategoryDTO> InsertCategory(CategoryDTO newCategory)
+        public async Task<CategoryDTO> InsertCategory(CreateCategoryDTO newCategory)
         {
             Category category = new Category
             {
@@ -42,18 +42,19 @@ namespace DrinkStore.BLL.Services
             await _context
                 .SaveChangesAsync();
 
-            newCategory.Id = category.Id;
-
-            return newCategory;
+            return await _context
+                .Categories
+                .Where(c => c.Id == category.Id)
+                .Select(CategoryDTO.CreateFromCategoryExpression())
+                .SingleOrDefaultAsync();
         }
 
-        public async Task<SubcategoryDTO> InsertSubcategory(SubcategoryDTO newSubcategory)
+        public async Task<CategoryDTO> InsertSubcategory(CreateCategoryDTO newSubcategory)
         {
             Subcategory category = new Subcategory
             {
-                Id = newSubcategory.Id,
                 Name = newSubcategory.Name,
-                CategoryId = newSubcategory.CategoryId,
+                CategoryId = (int)newSubcategory.ParentCategoryId,
             };
 
             _context
@@ -63,9 +64,12 @@ namespace DrinkStore.BLL.Services
             await _context
                 .SaveChangesAsync();
 
-            newSubcategory.Id = category.Id;
 
-            return newSubcategory;
+            return await _context
+                .Subcategories
+                .Where(c => c.Id == category.Id)
+                .Select(CategoryDTO.CreateFromSubcategoryExpression())
+                .SingleOrDefaultAsync();
         }
 
         public async Task DeleteCategory(int id)

@@ -102,15 +102,6 @@
                 getPackSizes: 'products/getPackSizes',
             }),
         },
-        mounted: function() {
-            this.$store
-                .dispatch('categories/getCategoriesAction')
-                .then();
-
-            this.$store
-                .dispatch('products/getPackSizesAction')
-                .then();
-        },
         methods: {
             setSelectedCategory: function(id) {
                 this.$store

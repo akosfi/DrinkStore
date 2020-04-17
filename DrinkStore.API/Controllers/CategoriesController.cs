@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DrinkStore.BLL.DTOs;
@@ -36,10 +37,25 @@ namespace DrinkStore.API.Controllers
             return _categories;
         }
 
+        [Authorize(Policy = "cat")]
+        [HttpPost(Name = nameof(InsertCategory))]
+        public async Task<CategoryDTO> InsertCategory(CreateCategoryDTO newCategory)
+        {
+            Debug.WriteLine(newCategory.Name + " " + newCategory.ParentCategoryId);
+            if(newCategory.ParentCategoryId != null)
+            {
+                return await _categoryService.InsertSubcategory(newCategory);
+            }
+            else
+            {
+                return await _categoryService.InsertCategory(newCategory);
+            }
+        }
+
 
         [Authorize(Policy = "cat")]
         [HttpDelete("{id}", Name = nameof(DeleteCategory))]
-        public async void DeleteCategory(int id)
+        public async Task DeleteCategory(int id)
         {
             await _categoryService.DeleteCategory(id);
         }
@@ -47,7 +63,7 @@ namespace DrinkStore.API.Controllers
 
         [Authorize(Policy = "cat")]
         [HttpDelete("{id}/sub/{sid}", Name = nameof(DeleteSubcategory))]
-        public async void DeleteSubcategory(int sid)
+        public async Task DeleteSubcategory(int sid)
         {
             await _categoryService.DeleteSubCategory(sid);
         }

@@ -1,4 +1,4 @@
-import {request} from '../../util';
+import {request, RequestMethod} from '../../util';
 
 const state = {
     categories: [] as Array<{id}>,
@@ -31,6 +31,17 @@ const actions = {
             .catch((err) => {
                 console.log(err);
                 reject();
+            });
+        });
+    },
+    addCategoryAction({commit}, category) {
+        return new Promise((resolve, reject) => {
+            request.make('/api/categories', category, RequestMethod.POST)
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((err) => {
+                reject(err);
             });
         });
     },

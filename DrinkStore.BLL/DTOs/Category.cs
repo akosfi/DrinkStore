@@ -19,28 +19,38 @@ namespace DrinkStore.BLL.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<SubcategoryDTO> Subcategories { get; set; } = new List<SubcategoryDTO>();
+        public ICollection<CategoryDTO> Subcategories { get; set; } = new List<CategoryDTO>();
+        public int? ParentCategoryId { get; set; }
 
-        public static Expression<Func<Category, CategoryDTO>> CreateFromCategory()
+        public static Expression<Func<Category, CategoryDTO>> CreateFromCategoryExpression()
         {
             return c => new CategoryDTO
             {
                 Id = c.Id,
                 Name = c.Name,
-                Subcategories = c.Subcategories.Select(sc => new SubcategoryDTO
+                Subcategories = c.Subcategories.Select(sc => new CategoryDTO
                 {
                     Id = sc.Id,
                     Name = sc.Name,
-                    CategoryId = c.Id,
+                    ParentCategoryId = c.Id,
                 }).ToList(),
+            };
+        }
+
+        public static Expression<Func<Subcategory, CategoryDTO>> CreateFromSubcategoryExpression()
+        {
+            return c => new CategoryDTO
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ParentCategoryId = c.CategoryId,
             };
         }
     }
 
-    public class SubcategoryDTO : DTO
+    public class CreateCategoryDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public int CategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
     }
 }
