@@ -43,7 +43,7 @@ namespace BLL.Services
                 .Products
                 .Include(p => p.PackSize)
                 .Where(p => p.Id == productId)
-                .Select(ProductDTO.CreateFromProduct())
+                .Select(ProductDTO.CreateFromProductExpression())
                 .SingleOrDefaultAsync();
         }
 
@@ -51,7 +51,7 @@ namespace BLL.Services
         {
             return await _context
                 .Products
-                .Select(ProductDTO.CreateFromProduct())
+                .Select(ProductDTO.CreateFromProductExpression())
                 .ToListAsync();
         }
 
@@ -60,7 +60,7 @@ namespace BLL.Services
             return await _context
                 .Products
                 .Where(p => p.CategoryId == categoryId)
-                .Select(ProductDTO.CreateFromProduct())
+                .Select(ProductDTO.CreateFromProductExpression())
                 .ToListAsync();
         }
         public async Task<IEnumerable<ProductDTO>> GetProductsBySubCategoryId(int subcategoryId)
@@ -68,9 +68,10 @@ namespace BLL.Services
             return await _context
                 .Products
                 .Where(p => p.SubCategoryId == subcategoryId)
-                .Select(ProductDTO.CreateFromProduct())
+                .Select(ProductDTO.CreateFromProductExpression())
                 .ToListAsync();
         }
+
         public async Task<ProductDTO> InsertProduct(ProductCreateDTO newProduct)
         {
             Product product = new Product
@@ -79,7 +80,7 @@ namespace BLL.Services
                 UnitPrice = newProduct.UnitPrice,
                 PackSizeId = newProduct.PackSizeId,
                 CategoryId = newProduct.CategoryId,
-                SubCategoryId = newProduct.SubCategoryId,
+                SubCategoryId = newProduct.SubcategoryId,
             };
 
             _context
@@ -89,7 +90,12 @@ namespace BLL.Services
             await _context
                 .SaveChangesAsync();
 
-            return ProductDTO.CreateProduct(product);
+            return await _context
+                .Products
+                .Include(p => p.PackSize)
+                .Where(p => p.Id == product.Id)
+                .Select(ProductDTO.CreateFromProductExpression())
+                .SingleOrDefaultAsync();
         }
         public async Task UpdateProduct(int productId, ProductCreateDTO updatedProduct)
         {
@@ -99,7 +105,7 @@ namespace BLL.Services
                 UnitPrice = updatedProduct.UnitPrice,
                 Name = updatedProduct.Name,
                 CategoryId = updatedProduct.CategoryId,
-                SubCategoryId = updatedProduct.SubCategoryId,
+                SubCategoryId = updatedProduct.SubcategoryId,
                 PackSizeId = updatedProduct.PackSizeId,
             };
 
@@ -109,6 +115,29 @@ namespace BLL.Services
 
             await _context
                 .SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<PackSizeDTO>> GetPackSizes()
+        {
+            return await _context.PackSizes.Select(PackSizeDTO.CreateFromPackSizeExpression()).ToListAsync();
+        }
+
+        public async Task<PackSizeDTO> InsertPackSize(PackSizeCreateDTO newPackSize)
+        {
+            PackSize ps = new PackSize
+            {
+                Quanitity = newPackSize.Quanitity,
+                Unit = newPackSize.Unit,
+            };
+
+            _context
+                .PackSizes
+                .Add(ps);
+
+            await _context
+                .SaveChangesAsync();
+
+            return PackSizeDTO.CreateFromPackSize(ps);
         }
     }
 }

@@ -76,6 +76,14 @@ namespace DrinkStore.DAL
 
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Consumer", NormalizedName = "Consumer".ToUpper() });
 
+
+            modelBuilder.Entity<Product>().Property(b => b.Id).UseIdentityAlwaysColumn();
+            modelBuilder.Entity<Category>().Property(b => b.Id).UseIdentityAlwaysColumn();
+            modelBuilder.Entity<Subcategory>().Property(b => b.Id).UseIdentityAlwaysColumn();
+            modelBuilder.Entity<Order>().Property(b => b.Id).UseIdentityAlwaysColumn();
+            modelBuilder.Entity<PackSize>().Property(b => b.Id).UseIdentityAlwaysColumn();
+            modelBuilder.Entity<ProductOrder>().Property(b => b.Id).UseIdentityAlwaysColumn();
+
         }
     }
 }

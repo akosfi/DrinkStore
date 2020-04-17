@@ -1,11 +1,15 @@
-import {request} from '../../util';
+import {request, RequestMethod} from '../../util';
 
 const state = {
     products: [],
+    packSizes: [],
 };
 const getters = {
     getProducts: function() {
         return state.products;
+    },
+    getPackSizes: function() {
+        return state.packSizes;
     }
 };
 const actions = {
@@ -25,6 +29,29 @@ const actions = {
                 reject();
             });
         });
+    },
+    addProductAction({commit}, product) {
+        return new Promise((resolve, reject) => {
+            request.make('/api/products', product, RequestMethod.POST)
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((err) => {
+                reject();
+            });
+        });
+    },
+    getPackSizesAction({commit}, product) {
+        return new Promise((resolve, reject) => {
+            request.make('/api/products/pack', {}, RequestMethod.GET)
+            .then((response) => {
+                commit('addPackSizes', response.packSizes)
+                resolve(response.packSizes);
+            })
+            .catch((err) => {
+                reject();
+            });
+        });
     }
 };
 
@@ -36,6 +63,9 @@ const mutations = {
         if(state.products.find(p => p.id === product.id) != null) {
             state.products.push(product);
         }
+    },
+    addPackSizes(state, packSizes) {
+        state.packSizes = packSizes;
     }
 };
 

@@ -25,7 +25,7 @@ namespace DrinkStore.BLL.DTOs
         public int CategoryId { get; set; }
         public int? SubCategoryId { get; set; }
 
-        public static Expression<Func<Product, ProductDTO>> CreateFromProduct()
+        public static Expression<Func<Product, ProductDTO>> CreateFromProductExpression()
         {
             return p => new ProductDTO
             {
@@ -39,19 +39,6 @@ namespace DrinkStore.BLL.DTOs
             };
         }
 
-        public static ProductDTO CreateProduct(Product p)
-        {
-            return new ProductDTO
-            {
-                Id = p.Id,
-                Name = p.Name,
-                UnitPrice = p.UnitPrice,
-                CategoryId = p.CategoryId,
-                SubCategoryId = p.SubCategoryId,
-                PackSizeQuantity = p.PackSize.Quanitity,
-                PackSizeUnit = p.PackSize.Unit,
-            };
-        }
     }
 
     public class ProductCreateDTO
@@ -60,8 +47,48 @@ namespace DrinkStore.BLL.DTOs
         public int UnitPrice { get; set; }
         public int PackSizeId { get; set; }
         public int CategoryId { get; set; }
-        public int? SubCategoryId { get; set; }
+        public int? SubcategoryId { get; set; }
     }
 
+    public class PackSizeDTO : DTO
+    {
+        public int Id { get; set; }
+        public double Quanitity { get; set; }
+        public string Unit { get; set; }
 
+        public static Expression<Func<PackSize, PackSizeDTO>> CreateFromPackSizeExpression()
+        {
+            return p => new PackSizeDTO
+            {
+                Id = p.Id,
+                Quanitity = p.Quanitity,
+                Unit = p.Unit,
+            };
+        }
+
+        public static PackSizeDTO CreateFromPackSize(PackSize p)
+        {
+            return new PackSizeDTO
+            {
+                Id = p.Id,
+                Quanitity = p.Quanitity,
+                Unit = p.Unit,
+            };
+        }
+    }
+
+    public class PackSizeCreateDTO
+    {
+        public double Quanitity { get; set; }
+        public string Unit { get; set; }
+    }
+
+    public class PackSizeListDTO : DTO
+    {
+        public List<PackSizeDTO> PackSizes { get; set; }
+        public PackSizeListDTO(List<PackSizeDTO> _PackSizes)
+        {
+            PackSizes = _PackSizes;
+        }
+    }
 }

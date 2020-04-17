@@ -1,7 +1,7 @@
 import {request} from '../../util';
 
 const state = {
-    categories: [],
+    categories: [] as Array<{id}>,
     selected: 0,
     subSelected: 0,
 };
@@ -9,6 +9,9 @@ const state = {
 const getters = {
     getCategories: function() {
         return state.categories;
+    },
+    getSubcategories: state => function(id) {
+        return state.categories.find(c => c.id == id)?.subcategories;
     },
     getSelectedCategory: function() {
         return state.selected;
@@ -29,6 +32,12 @@ const actions = {
                 console.log(err);
                 reject();
             });
+        });
+    },
+    setSelectedCategoryAction({commit}, id) {
+        return new Promise((resolve) => {
+            commit('setSelectedCategory', id);
+            resolve();
         });
     }
 };

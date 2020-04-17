@@ -29,6 +29,17 @@
             Megrendeléseim
             </router-link>
           </li>
+          <li 
+            v-if="isLoggedIn"
+            class="nav-item"
+            v-bind:class="{ 'active': isRouteActive('/admin-product') }">
+            <router-link
+              to="/admin-product"
+              class="nav-link"
+            >
+            Termékek kezelése
+            </router-link>
+          </li>
         </ul>
         
         <div>

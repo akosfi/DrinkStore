@@ -87,5 +87,23 @@ namespace DrinkStore.API.Controllers
             if (id == 0) throw new ArgumentException();
             return await _productService.GetProduct(id);
         }
+
+        [HttpGet("pack", Name = nameof(GetPackSizes))]
+        public async Task<PackSizeListDTO> GetPackSizes()
+        {
+            var packSizes = await _productService.GetPackSizes();
+            PackSizeListDTO _packSizes = new PackSizeListDTO(packSizes.ToList());
+            _packSizes.PackSizes.ForEach(async p => await _linksService.AddLinksAsync(p));
+
+            await _linksService.AddLinksAsync(_packSizes);
+
+            return _packSizes;
+        }
+
+        [HttpPost("pack", Name = nameof(AddPackSize))]
+        public async Task<PackSizeDTO> AddPackSize(PackSizeCreateDTO newPackSize)
+        {
+            return await _productService.InsertPackSize(newPackSize);
+        }
     }
 }

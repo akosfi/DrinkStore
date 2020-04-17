@@ -3,15 +3,17 @@ using System;
 using DrinkStore.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DrinkStore.DAL.Migrations
 {
     [DbContext(typeof(DrinkStoreContext))]
-    partial class DrinkStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200417091515_AutoGenId")]
+    partial class AutoGenId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

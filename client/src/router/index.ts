@@ -20,6 +20,14 @@ const routes = [
     meta: {
       isSecure: true
     }
+  },
+  {
+    path: '/admin-product',
+    name: 'AdminProducts',
+    component: () => import('../pages/ProductAdmin.vue'),
+    meta: {
+      isSecure: true
+    }
   }
 ]
 

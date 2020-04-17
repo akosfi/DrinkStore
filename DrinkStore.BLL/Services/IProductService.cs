@@ -16,5 +16,7 @@ namespace BLL.Services
         Task<ProductDTO> InsertProduct(ProductCreateDTO newProduct);
         Task UpdateProduct(int productId, ProductCreateDTO updatedProduct);
         void DeleteProduct(int productId);
+        Task<IEnumerable<PackSizeDTO>> GetPackSizes();
+        Task<PackSizeDTO> InsertPackSize(PackSizeCreateDTO newPackSize);
     }
 }
