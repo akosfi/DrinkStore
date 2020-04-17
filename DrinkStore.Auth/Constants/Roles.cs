@@ -7,6 +7,7 @@ namespace DrinkStore.Auth.Constants
 {
     public static class Roles
     {
-        public const string Consumer = "Consumer";
+        public const string Consumer = nameof(Consumer);
+        public const string Admin = nameof(Admin);
     }
 }

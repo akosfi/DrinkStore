@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DrinkStore.Auth\DrinkStore.Auth.csproj" />
     <ProjectReference Include="..\DrinkStore.BLL\DrinkStore.BLL.csproj" />
     <ProjectReference Include="..\DrinkStore.DAL\DrinkStore.DAL.csproj" />
   </ItemGroup>
