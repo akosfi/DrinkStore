@@ -1,18 +1,18 @@
 <template>
     <div class="container">
         <h3 class="py-3">Termék hozzáadása</h3>
-        <form>
+        <form v-on:submit="addProduct">
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Név</label>
                 <div class="col-sm-8">
-                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Termék neve">
+                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Termék neve" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="price" class="col-sm-4 col-form-label">Egységár</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input v-model="unitPrice" type="number" class="form-control" id="price" placeholder="Termék egységára">
+                        <input v-model="unitPrice" type="number" class="form-control" id="price" placeholder="Termék egységára" required>
                         <div class="input-group-append">
                             <span class="input-group-text">,- Ft</span>
                         </div>                        
@@ -26,8 +26,8 @@
                         v-on:change="categorySelected"
                         v-model="categoryId"
                         id="category"
-                        class="form-control">
-                        <option selected disabled value="0">Kérem válasszon...</option>
+                        class="form-control"
+                        required>
                         <option 
                             v-for="category in getCategories"
                             v-bind:key="category.id"
@@ -42,8 +42,8 @@
                     <select 
                         v-model="subcategoryId"
                         id="subcategory"
-                        class="form-control">
-                        <option v-if="!categoryId" selected disabled value="0">Válasszon kategóriát előszőr!</option>
+                        class="form-control"
+                        required>
                         <option v-if="categoryId && getSubcategories(categoryId).length <= 0" selected disabled value="0">Ehhez a kategóriához nem tartozik alkategória!</option>
                         <option v-if="categoryId && getSubcategories(categoryId).length > 0" selected disabled value="0">Kérem válasszon...</option>
                         <option 
@@ -60,8 +60,8 @@
                     <select 
                         v-model="packSizeId"
                         id="packSize"
-                        class="form-control">
-                        <option selected disabled value="0">Kérem válasszon...</option>
+                        class="form-control"
+                        required>
                         <option 
                             v-for="ps in getPackSizes"
                             v-bind:key="ps.id"
@@ -72,7 +72,7 @@
             </div>
             <div class="d-flex justify-content-between">
                 <button v-on:click="resetForm()" type="button" class="btn btn-warning">Törlés</button>
-                <button v-on:click="addProduct()" type="button" class="btn btn-primary">Felvétel</button>
+                <button type="submit" class="btn btn-primary">Felvétel</button>
             </div>
         </form>
     </div>
@@ -112,7 +112,8 @@
                 const id = event.target.value;
                 this.subcategoryId = 0;
             },
-            addProduct: function() {
+            addProduct: function(e) {
+                e.preventDefault();
                 this.$store
                     .dispatch('products/addProductAction', {
                         name: this.name,

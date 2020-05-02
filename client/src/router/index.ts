@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import authService from '../services/AuthService';
+import { request } from '@/util';
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,7 @@ const routes = [
     name: 'AdminProducts',
     component: () => import('../pages/ProductAdmin.vue'),
     meta: {
-      isSecure: true
+      isAdmin: true
     }
   }
 ]
@@ -47,7 +48,14 @@ router.beforeEach((to, from, next) => {
         authService.login();
       }
     });
-  } else {
+  } 
+  /*else if (to.matched.some(record => record.meta.isAdmin)) {
+    authService.getUser().then(user => {
+      console.log(user);
+      next();
+    });
+  } */
+  else {
     next();
   }
 });
