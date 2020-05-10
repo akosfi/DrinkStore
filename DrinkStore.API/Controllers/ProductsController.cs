@@ -103,7 +103,9 @@ namespace DrinkStore.API.Controllers
         [HttpPost("pack", Name = nameof(AddPackSize))]
         public async Task<PackSizeDTO> AddPackSize(PackSizeCreateDTO newPackSize)
         {
-            return await _productService.InsertPackSize(newPackSize);
+            var packSize = await _productService.InsertPackSize(newPackSize);
+            await _linksService.AddLinksAsync(packSize);
+            return packSize;
         }
     }
 }

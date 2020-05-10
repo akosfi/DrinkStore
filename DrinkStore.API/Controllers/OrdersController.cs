@@ -44,14 +44,20 @@ namespace DrinkStore.API.Controllers
         public async Task<DetailedOrderDTO> GetOrder(int id)
         {
             if (id == 0) throw new ArgumentException();
-            return await _orderService.GetOrder(id);
+            var order = await _orderService.GetOrder(id);
+            await _linksService.AddLinksAsync(order);
+
+            return order;
         }
 
         [Authorize(Policy = "order:create")]
         [HttpPost(Name = nameof(AddOrder))]
         public async Task<DetailedOrderDTO> AddOrder([FromBody] List<OrderEntryDTO> orders)
         {
-            return await _orderService.InsertOrder(orders);
+            var order = await _orderService.InsertOrder(orders);
+            await _linksService.AddLinksAsync(order);
+
+            return order;
         }
     }
 }
