@@ -21,6 +21,7 @@ using RiskFirst.Hateoas.Models;
 using DrinkStore.BLL.DTOs;
 using DrinkStore.API.Utilities;
 using DrinkStore.Auth.Constants;
+using System.Diagnostics;
 
 namespace DrinkStore.API
 {
@@ -53,6 +54,8 @@ namespace DrinkStore.API
             services.AddDbContext<DrinkStoreContext>(o =>
                 o.UseNpgsql(Configuration["ConnectionStrings:pgConnection"]));
 
+            //IdentityModelEventResouce.ShowPII = true;
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -62,6 +65,33 @@ namespace DrinkStore.API
                 o.Authority = Configuration["OAuthURL"];
                 o.Audience = "resourceapi";
                 o.RequireHttpsMetadata = false;
+
+                o.Events = new JwtBearerEvents()
+                {
+                    OnTokenValidated = context =>
+                    {
+                        Debug.WriteLine("-------------------------------------------------------------------------------");
+                        foreach (Claim c in context.Principal.Claims.ToList())
+                        {
+                            Debug.WriteLine(c);
+                        }
+                        return Task.CompletedTask;
+                        // do some logging or whatever...
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        Debug.WriteLine("-------------------------------------------------------------------------------");
+                        Debug.WriteLine(context.Exception.ToString());
+                        return Task.CompletedTask;
+                    },
+                    OnMessageReceived = context =>
+                    {
+                        Debug.WriteLine("---------------------------------------------------------------------------------");
+                        Debug.WriteLine("firsttry");
+                        return Task.CompletedTask;
+                    }
+
+                };
             });
 
             services.AddAuthorization(options =>
@@ -71,7 +101,7 @@ namespace DrinkStore.API
                 options.AddPolicy("order", policy           => policy.RequireClaim("scope", "order").RequireRole(new string[] { Roles.Admin }));
                 options.AddPolicy("order:create", policy    => policy.RequireClaim("scope", "order:create"));
                 options.AddPolicy("product:read", policy    => policy.RequireClaim("scope", "product:read"));
-                options.AddPolicy("order:read", policy      => policy.RequireClaim("scope", "order:read"));
+                options.AddPolicy("consumer", policy      => policy.RequireClaim(ClaimTypes.Role, Roles.Consumer));
             });
 
             services.AddTransient<IProductService, ProductService>();
@@ -97,7 +127,7 @@ namespace DrinkStore.API
             app.UseRouting();
 
             app.UseAuthentication();
-           //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

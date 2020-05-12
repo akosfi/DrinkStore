@@ -27,6 +27,7 @@ namespace DrinkStore.API.Controllers
             _linksService = linksService;
         }
 
+        [Authorize(Policy = "consumer")]
         [HttpGet(Name = nameof(GetProducts))]
         public async Task<ActionResult<ProductListDTO>> GetProducts([FromQuery] int? categoryId, [FromQuery] int? subcategoryId)
         {
