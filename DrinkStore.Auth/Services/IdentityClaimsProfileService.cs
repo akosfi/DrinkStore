@@ -35,10 +35,11 @@ namespace DrinkStore.Auth.Services
 
             var claims = principal.Claims.ToList();
 
-            claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            claims = claims
+                .Where(claim => context.RequestedClaimTypes.Contains(claim.Type) || claim.Type == "role")
+                .ToList();
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.Name));
             claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
-            claims.Add(new Claim(ClaimTypes.Role, Roles.Consumer));
 
             context.IssuedClaims = claims;
         }
