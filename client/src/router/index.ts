@@ -49,12 +49,17 @@ router.beforeEach((to, from, next) => {
       }
     });
   } 
-  /*else if (to.matched.some(record => record.meta.isAdmin)) {
+  else if (to.matched.some(record => record.meta.isAdmin)) {
     authService.getUser().then(user => {
-      console.log(user);
-      next();
+      const roles = user?.profile?.role;
+      if(roles === 'Admin' || !!(roles.find && roles.find(r => r === 'Admin'))) {
+        next();
+      }
+      else {
+        next('/');
+      }
     });
-  } */
+  } 
   else {
     next();
   }

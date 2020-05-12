@@ -13,7 +13,7 @@ class AuthService {
             client_id: "vue_app",
             redirect_uri: "http://localhost:8080/auth-callback.html",
             response_type: "id_token token",
-            scope: "openid profile email product order:read order:create cat",
+            scope: "openid profile email resourceapi:use",
             post_logout_redirect_uri: "http://localhost:8080/",
             filterProtocolClaims: true,
             metadata: {

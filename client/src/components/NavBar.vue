@@ -30,7 +30,7 @@
             </router-link>
           </li>
           <li 
-            v-if="isLoggedIn"
+            v-if="isLoggedIn && isAdmin"
             class="nav-item"
             v-bind:class="{ 'active': isRouteActive('/admin-product') }">
             <router-link
@@ -71,6 +71,7 @@
       return {
         email: "" as string | undefined,
         isLoggedIn: false as boolean,
+        isAdmin: false as boolean,
       }
     },
     methods: {
@@ -87,6 +88,8 @@
     mounted: function() {
       authService.getUser().then((user) => {
         this.email = user?.profile?.email;
+        const roles = user?.profile?.role;
+        this.isAdmin = roles === 'Admin' || !!(roles.find && roles.find(r => r === 'Admin'));
       });
       authService.isLoggedIn().then((isLoggedIn) => {
         this.isLoggedIn = isLoggedIn;
