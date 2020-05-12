@@ -27,7 +27,6 @@ namespace DrinkStore.API.Controllers
             _linksService = linksService;
         }
 
-        [Authorize(Policy = "consumer")]
         [HttpGet(Name = nameof(GetProducts))]
         public async Task<ActionResult<ProductListDTO>> GetProducts([FromQuery] int? categoryId, [FromQuery] int? subcategoryId)
         {
@@ -53,7 +52,7 @@ namespace DrinkStore.API.Controllers
             return _products;
         }
 
-        [Authorize(Policy = "product")]
+        [Authorize(Policy = "admin")]
         [HttpPost(Name = nameof(AddProduct))]
         public async Task<ActionResult<ProductDTO>> AddProduct(ProductCreateDTO newProduct)
         {
@@ -72,7 +71,7 @@ namespace DrinkStore.API.Controllers
             return product;
         }
 
-        [Authorize(Policy = "product")]
+        [Authorize(Policy = "admin")]
         [HttpPut("{id}", Name = nameof(UpdateProduct))]
         public async Task<ActionResult> UpdateProduct(int id, ProductCreateDTO productToUpdate)
         {
@@ -81,7 +80,7 @@ namespace DrinkStore.API.Controllers
             return Ok();
         }
 
-        [Authorize(Policy = "product")]
+        [Authorize(Policy = "admin")]
         [HttpDelete("{id}", Name = nameof(DeleteProduct))]
         public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
         {
@@ -101,6 +100,7 @@ namespace DrinkStore.API.Controllers
             return _packSizes;
         }
 
+        [Authorize(Policy = "admin")]
         [HttpPost("pack", Name = nameof(AddPackSize))]
         public async Task<PackSizeDTO> AddPackSize(PackSizeCreateDTO newPackSize)
         {

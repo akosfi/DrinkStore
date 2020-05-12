@@ -37,7 +37,7 @@ namespace DrinkStore.API.Controllers
             return _categories;
         }
 
-        [Authorize(Policy = "cat")]
+        [Authorize(Policy = "admin")]
         [HttpPost(Name = nameof(InsertCategory))]
         public async Task<CategoryDTO> InsertCategory(CreateCategoryDTO newCategory)
         {
@@ -53,7 +53,7 @@ namespace DrinkStore.API.Controllers
         }
 
 
-        [Authorize(Policy = "cat")]
+        [Authorize(Policy = "admin")]
         [HttpDelete("{id}", Name = nameof(DeleteCategory))]
         public async Task DeleteCategory(int id)
         {
@@ -61,7 +61,7 @@ namespace DrinkStore.API.Controllers
         }
 
 
-        [Authorize(Policy = "cat")]
+        [Authorize(Policy = "admin")]
         [HttpDelete("{id}/sub/{sid}", Name = nameof(DeleteSubcategory))]
         public async Task DeleteSubcategory(int sid)
         {

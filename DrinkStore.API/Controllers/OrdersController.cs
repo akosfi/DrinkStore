@@ -26,7 +26,7 @@ namespace DrinkStore.API.Controllers
         }
 
 
-        [Authorize(Policy = "order:read")]
+        [Authorize(Policy = "consumer")]
         [HttpGet(Name = nameof(GetOrders))]
         public async Task<OrderListDTO> GetOrders()
         {
@@ -39,7 +39,7 @@ namespace DrinkStore.API.Controllers
             return _orders;
         }
 
-        [Authorize(Policy = "order:read")]
+        [Authorize(Policy = "consumer")]
         [HttpGet("{id}", Name = nameof(GetOrder))]
         public async Task<DetailedOrderDTO> GetOrder(int id)
         {
@@ -50,7 +50,7 @@ namespace DrinkStore.API.Controllers
             return order;
         }
 
-        [Authorize(Policy = "order:create")]
+        [Authorize(Policy = "consumer")]
         [HttpPost(Name = nameof(AddOrder))]
         public async Task<DetailedOrderDTO> AddOrder([FromBody] List<OrderEntryDTO> orders)
         {

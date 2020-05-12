@@ -30,7 +30,7 @@ namespace DrinkStore.BLL.DTOs
         }
     }
 
-    public class DetailedOrderDTO
+    public class DetailedOrderDTO : DTO
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
