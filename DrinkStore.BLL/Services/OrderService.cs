@@ -31,7 +31,7 @@ namespace DrinkStore.BLL.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetOrders()
+        public async Task<IEnumerable<OrderDTO>> GetOrders(int userId)
         {
             return await _context
                 .Orders

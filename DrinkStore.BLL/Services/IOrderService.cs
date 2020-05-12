@@ -9,7 +9,7 @@ namespace DrinkStore.BLL.Services
     public interface IOrderService
     {
         Task<DetailedOrderDTO> GetOrder(int orderId);
-        Task<IEnumerable<OrderDTO>> GetOrders();
+        Task<IEnumerable<OrderDTO>> GetOrders(int userId);
         Task<DetailedOrderDTO> InsertOrder(List<OrderEntryDTO> orders);
     }
 }

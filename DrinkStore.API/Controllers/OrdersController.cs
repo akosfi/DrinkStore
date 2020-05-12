@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DrinkStore.BLL.DTOs;
 using DrinkStore.BLL.Services;
@@ -30,7 +32,9 @@ namespace DrinkStore.API.Controllers
         [HttpGet(Name = nameof(GetOrders))]
         public async Task<OrderListDTO> GetOrders()
         {
-            IEnumerable<OrderDTO> orders = await _orderService.GetOrders();
+            var userId = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault();
+
+            IEnumerable<OrderDTO> orders = await _orderService.GetOrders(userId);
             OrderListDTO _orders = new OrderListDTO(orders.ToList());
 
             _orders.Orders.ForEach(async o => await _linksService.AddLinksAsync(o));

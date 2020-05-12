@@ -54,8 +54,6 @@ namespace DrinkStore.API
             services.AddDbContext<DrinkStoreContext>(o =>
                 o.UseNpgsql(Configuration["ConnectionStrings:pgConnection"]));
 
-            //IdentityModelEventResouce.ShowPII = true;
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,33 +63,6 @@ namespace DrinkStore.API
                 o.Authority = Configuration["OAuthURL"];
                 o.Audience = "resourceapi";
                 o.RequireHttpsMetadata = false;
-
-                o.Events = new JwtBearerEvents()
-                {
-                    OnTokenValidated = context =>
-                    {
-                        Debug.WriteLine("-------------------------------------------------------------------------------");
-                        foreach (Claim c in context.Principal.Claims.ToList())
-                        {
-                            Debug.WriteLine(c);
-                        }
-                        return Task.CompletedTask;
-                        // do some logging or whatever...
-                    },
-                    OnAuthenticationFailed = context =>
-                    {
-                        Debug.WriteLine("-------------------------------------------------------------------------------");
-                        Debug.WriteLine(context.Exception.ToString());
-                        return Task.CompletedTask;
-                    },
-                    OnMessageReceived = context =>
-                    {
-                        Debug.WriteLine("---------------------------------------------------------------------------------");
-                        Debug.WriteLine("firsttry");
-                        return Task.CompletedTask;
-                    }
-
-                };
             });
 
             services.AddAuthorization(options =>
