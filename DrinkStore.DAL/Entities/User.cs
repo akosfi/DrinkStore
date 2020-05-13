@@ -9,5 +9,6 @@ namespace DrinkStore.DAL.Entities
     {   
         public String Name { get; set; }
 
+        public ICollection<UserOrder> UserOrders { get; } = new List<UserOrder>();
     }
 }

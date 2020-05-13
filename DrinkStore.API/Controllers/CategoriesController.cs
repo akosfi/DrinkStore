@@ -42,10 +42,10 @@ namespace DrinkStore.API.Controllers
         public async Task<CategoryDTO> InsertCategory(CreateCategoryDTO newCategory)
         {
             CategoryDTO category;
-            if (newCategory.ParentCategoryId != null) {
+            if (newCategory.ParentCategoryId.HasValue && newCategory.ParentCategoryId != 0) {
                 category = await _categoryService.InsertSubcategory(newCategory);
             } else {
-                category = await _categoryService.InsertSubcategory(newCategory);
+                category = await _categoryService.InsertCategory(newCategory);
             }
             await _linksService.AddLinksAsync(category);
 

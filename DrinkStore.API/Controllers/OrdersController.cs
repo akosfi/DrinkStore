@@ -32,7 +32,7 @@ namespace DrinkStore.API.Controllers
         [HttpGet(Name = nameof(GetOrders))]
         public async Task<OrderListDTO> GetOrders()
         {
-            var userId = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault();
+            var userId = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault().Value;
 
             IEnumerable<OrderDTO> orders = await _orderService.GetOrders(userId);
             OrderListDTO _orders = new OrderListDTO(orders.ToList());
@@ -58,7 +58,9 @@ namespace DrinkStore.API.Controllers
         [HttpPost(Name = nameof(AddOrder))]
         public async Task<DetailedOrderDTO> AddOrder([FromBody] List<OrderEntryDTO> orders)
         {
-            var order = await _orderService.InsertOrder(orders);
+            var userId = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault().Value;
+
+            var order = await _orderService.InsertOrder(orders, userId);
             await _linksService.AddLinksAsync(order);
 
             return order;

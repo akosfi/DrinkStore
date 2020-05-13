@@ -21,6 +21,7 @@ namespace DrinkStore.DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<PackSize> PackSizes { get; set; }
         public DbSet<ProductOrder> ProductOrders { get; set; }
+        public DbSet<UserOrder> UserOrders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Host=kandula.db.elephantsql.com;Database=jqjxpuud;Username=jqjxpuud;Password=k7EK5Es2_t5DFVBejpzBbTOE3BuKoB5o");
@@ -73,17 +74,13 @@ namespace DrinkStore.DAL
                 new Product { Id = 2, Name = "Birtok Fehér", UnitPrice = 736, CategoryId = 2, SubCategoryId = 4, PackSizeId = 2 }
             );
 
-
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Consumer", NormalizedName = "Consumer".ToUpper() });
-
-
             modelBuilder.Entity<Product>().Property(b => b.Id).UseIdentityAlwaysColumn();
             modelBuilder.Entity<Category>().Property(b => b.Id).UseIdentityAlwaysColumn();
             modelBuilder.Entity<Subcategory>().Property(b => b.Id).UseIdentityAlwaysColumn();
             modelBuilder.Entity<Order>().Property(b => b.Id).UseIdentityAlwaysColumn();
             modelBuilder.Entity<PackSize>().Property(b => b.Id).UseIdentityAlwaysColumn();
             modelBuilder.Entity<ProductOrder>().Property(b => b.Id).UseIdentityAlwaysColumn();
-
+            modelBuilder.Entity<UserOrder>().Property(b => b.Id).UseIdentityAlwaysColumn();
         }
     }
 }

@@ -31,15 +31,17 @@ namespace DrinkStore.BLL.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetOrders(int userId)
+        public async Task<IEnumerable<OrderDTO>> GetOrders(string userId)
         {
             return await _context
                 .Orders
+                .Include(o => o.UserOrders)
+                .Where(o => o.UserOrders.All(uo => uo.UserId == userId))
                 .Select(OrderDTO.CreateFromOrder())
                 .ToListAsync();
         }
 
-        public async Task<DetailedOrderDTO> InsertOrder(List<OrderEntryDTO> orders)
+        public async Task<DetailedOrderDTO> InsertOrder(List<OrderEntryDTO> orders, string userId)
         {
             Order order = new Order
             {
@@ -65,6 +67,16 @@ namespace DrinkStore.BLL.Services
                     .ProductOrders
                     .Add(po);
             }
+
+            UserOrder uo = new UserOrder
+            {
+                UserId = userId,
+                OrderId = order.Id
+            };
+
+            _context
+                .UserOrders
+                .Add(uo);
 
             await _context
                 .SaveChangesAsync();
