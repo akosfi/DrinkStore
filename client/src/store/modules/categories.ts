@@ -28,13 +28,12 @@ const actions = {
                 commit('addCategories', data.categories);
                 resolve(data.categories);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 reject();
             });
         });
     },
-    addCategoryAction({commit}, category) {
+    addCategoryAction({}, category) {
         return new Promise((resolve, reject) => {
             request.make('/api/categories', category, RequestMethod.POST)
             .then((data) => {

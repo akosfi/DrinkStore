@@ -34,16 +34,16 @@ namespace DrinkStore.Auth
         public static IEnumerable<Client> GetClients()
         {
             return new[]
-            {
+            {//http://localhost:8080
                 new Client {
                     RequireConsent = false,
                     ClientId = "vue_app",
                     ClientName = "Vue APP",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowedScopes = { "openid", "profile", "email", "resourceapi:use"},
-                    RedirectUris = {"http://localhost:8080/auth-callback.html"},
-                    PostLogoutRedirectUris = {"http://localhost:8080/"},
-                    AllowedCorsOrigins = {"http://localhost:8080"},
+                    RedirectUris = { "https://drinkstoreclient.azurewebsites.net/" + "/auth-callback.html" },
+                    PostLogoutRedirectUris = {"https://drinkstoreclient.azurewebsites.net/"},
+                    AllowedCorsOrigins = {"https://drinkstoreclient.azurewebsites.net"},
                     AllowAccessTokensViaBrowser = true,
                     AccessTokenLifetime = 3600
                 }

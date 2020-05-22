@@ -24,31 +24,30 @@ const actions = {
                 commit('addProducts', response.products);
                 resolve(response.products);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 reject();
             });
         });
     },
-    addProductAction({commit}, product) {
+    addProductAction({}, product) {
         return new Promise((resolve, reject) => {
             request.make('/api/products', product, RequestMethod.POST)
             .then((response) => {
                 resolve(response);
             })
-            .catch((err) => {
+            .catch(() => {
                 reject();
             });
         });
     },
-    getPackSizesAction({commit}, product) {
+    getPackSizesAction({commit}) {
         return new Promise((resolve, reject) => {
             request.make('/api/products/pack', {}, RequestMethod.GET)
             .then((response) => {
                 commit('addPackSizes', response.packSizes)
                 resolve(response.packSizes);
             })
-            .catch((err) => {
+            .catch(() => {
                 reject();
             });
         });

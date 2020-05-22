@@ -44,4 +44,6 @@ class Request {
     }
 }
 
-export const request = new Request('https://localhost:44302');
+const apiAddress = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_PROD : process.env.VUE_APP_API_DEV;
+
+export const request = new Request(apiAddress);

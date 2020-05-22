@@ -14,7 +14,7 @@ const getters = {
     }
 };
 const actions = {
-    getOrdersAction({commit, state}){
+    getOrdersAction({commit}){
         return new Promise((resolve, reject) => {
             request.make('/api/orders', {}, RequestMethod.GET)
             .then((response) => {
@@ -22,12 +22,11 @@ const actions = {
                 resolve();
             })
             .catch((err) => {
-                console.log(err);
                 reject();
             });
         });
     },
-    getOrderAction({commit, state}, id) {
+    getOrderAction({commit}, id) {
         return new Promise((resolve, reject) => {
             request.make(`/api/orders/${id}`, {}, RequestMethod.GET)
             .then((response) => {
@@ -35,7 +34,6 @@ const actions = {
                 resolve();
             })
             .catch((err) => {
-                console.log(err);
                 reject();
             });
         });

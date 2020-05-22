@@ -44,7 +44,7 @@ namespace DrinkStore.API
                 builder =>
                 {
                     builder
-                    .WithOrigins("http://localhost:8080")
+                    .WithOrigins(Configuration["ClientURL"])
                     .AllowCredentials()
                     .AllowAnyHeader();
                 });
@@ -82,6 +82,14 @@ namespace DrinkStore.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            /*----*/
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("index.html");
+            app.UseDefaultFiles(options);
+
+            app.UseStaticFiles();
+            /*----*/
             app.UseCors(AllowedClientOrigin);
 
             if (env.IsDevelopment())
